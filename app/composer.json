@@ -7,8 +7,7 @@
         "behat/mink-selenium-driver": "*",
         "behat/mink-selenium2-driver": "*",
         "behat/mink-sahi-driver": "*",
-        "behat/mink-zombie-driver": "*",
-				"drupal/drupal-extension": "*"
+        "behat/mink-zombie-driver": "*"
     },
     "minimum-stability": "dev",
     "config": {
