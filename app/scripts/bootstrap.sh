@@ -14,7 +14,7 @@ then
 	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
 
 	apt-get update
-	apt-get -y install mysql-server php5-mysql apache2 php5 php5-cli
+	apt-get -y install mysql-server mysql-client php5-mysql apache2 php5 php5-cli
 	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
 	apt-get -y install git-core
 	

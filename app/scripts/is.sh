@@ -1,0 +1,214 @@
+#!/bin/bash
+
+# Help funtion
+HELP() {
+	echo ""
+	echo "Usage:"
+	echo "-d : Path to Drupal root Directory. No trailing slash"
+	echo "-r : SQL File to Restore."	
+	echo "-n : Name for this installation."
+	echo "     A directory \"NAME.localhost\" will be created in PATH/sites/"
+	echo "-s : Subdomain. Assumes default if not present."
+	echo ""
+}
+# end help funtion
+
+#If no argument given, show HELP and exit
+if [ $# -lt 1 ] ;then
+HELP
+exit 0
+fi
+
+
+DRUPALPATH=""
+RESTORE=""
+NAME=""
+SUBDOMAIN=""
+
+SUBDOMAIN_PATH=""
+SUBDOMAIN_SETTINGS=""
+DESTINATION=""
+DBNAME=""
+
+while getopts d:r:n:s: option
+do
+        case "${option}"
+        in
+                d) DRUPALPATH=${OPTARG};;
+                r) RESTORE=${OPTARG};;
+                n) NAME=${OPTARG};;
+								s) SUBDOMAIN=${OPTARG};;
+        esac
+done
+
+# spacer 
+echo
+
+# Check path
+if [ ! -d "$DRUPALPATH" ]; then
+  echo "ERROR: Directory does not exist - $DRUPALPATH"
+	exit 1
+fi
+
+# Check name
+if [ -z "$NAME" ] ;then
+	echo "ERROR: No Name. Please use -n to specify the name"
+	exit 2
+fi
+
+# Check destination
+DESTINATION="$DRUPALPATH/sites/$NAME.localhost"
+if [ -d "$DESTINATION" ]; then
+  echo "WARNING: DESTINATION already exists - $DESTINATION"
+fi
+
+# Check subdomain
+if [ -z "$SUBDOMAIN" ] ;then
+	SUBDOMAIN="default"
+fi
+
+# Build path to subdomain
+SUBDOMAIN_PATH="$DRUPALPATH/sites/$SUBDOMAIN"
+
+# Build path to settings file
+SUBDOMAIN_SETTINGS="$SUBDOMAIN_PATH/settings.php"
+if [ ! -f "$SUBDOMAIN_SETTINGS" ]; then
+  echo "ERROR: SETTINGS FILE does not exist - $SUBDOMAIN_SETTINGS"
+	exit 5
+fi
+
+# Check RESTORE sql file
+if [ ! -z "$RESTORE" ] ;then
+	if [ ! -f "$RESTORE" ]; then
+		echo "ERROR: File does not exist - $RESTORE"
+		exit 6
+	fi
+fi
+
+# Build db name
+DBNAME="db_$NAME"
+
+echo
+echo "Installing new site"
+
+echo "NAME : $NAME"
+echo "DRUPALPATH : $DRUPALPATH"
+echo "SUBDOMAIN : $SUBDOMAIN"
+echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
+echo "SUBDOMAIN_SETTINGS : $SUBDOMAIN_SETTINGS"
+echo "DESTINATION : $DESTINATION"
+echo "DBNAME : $DBNAME"
+echo "RESTORE : $RESTORE"
+echo 
+echo "WARNING! Proceeding will overwrite any existing settings and DB"
+echo
+
+read -p "Are you sure? " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo
+		echo "Not installing"
+		echo 
+		exit 9
+fi
+
+echo
+echo "Beginning installation"
+echo 
+
+# /usr/bin/mysql -uroot -prootpass -e ""
+
+# Create subdomain DB
+echo "Create DB"
+/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
+/usr/bin/mysql -uroot -prootpass -e "CREATE DATABASE $DBNAME"
+
+# Give permissions for 'drupaluser'
+echo "Grant permissions to drupaluser"
+/usr/bin/mysql -uroot -prootpass -e "GRANT ALL ON $DBNAME.* TO 'drupaluser'@'localhost'"
+/usr/bin/mysql -uroot -prootpass -e "flush privileges"
+
+# Restore DB
+if [ ! -z "$RESTORE" ] ;then
+	echo "Restoring file : $RESTORE"
+	/usr/bin/mysql -uroot -prootpass $DBNAME < $RESTORE
+fi
+			
+# Create destination
+if [ ! -z "$DESTINATION" ]; then
+	if [ ! -d "$DESTINATION" ]; then
+		echo "Making $DESTINATION"
+		mkdir $DESTINATION
+	else
+		echo "$DESTINATION already exists"
+	fi
+fi
+
+# Create shortcuts for files
+if [ ! -d "$SUBDOMAIN_PATH/files" ]; then
+	echo "$SUBDOMAIN_PATH/files does not exist, so making new"
+	mkdir "$SUBDOMAIN_PATH/files"
+fi
+if [ ! -d "$DESTINATION/files" ] && [ ! -h "$DESTINATION/files" ]; then
+	echo "Making symlink for /files"
+	ln -fs "$SUBDOMAIN_PATH/files" "$DESTINATION/files"
+else 
+	echo "/files already exists"
+fi
+
+# Create shortcuts for modules
+if [ -d "$SUBDOMAIN_PATH/modules" ]; then
+	if [ ! -d "$DESTINATION/modules" ] && [ ! -h "$DESTINATION/modules" ]; then
+		echo "Making symlink for modules"
+		ln -fs "$SUBDOMAIN_PATH/modules" "$DESTINATION/modules"
+	else 
+		echo "/modules already exists"
+	fi
+else
+	if [ ! -d "$DESTINATION/modules" ]; then
+		echo "Making /modules"
+		mkdir "$DESTINATION/modules"
+	else 
+		echo "/modules already exists"
+	fi
+fi
+
+# Create shortcuts for themes
+if [ -d "$SUBDOMAIN_PATH/themes" ]; then
+	if [ ! -d "$DESTINATION/themes" ] && [ ! -h "$DESTINATION/themes" ]; then
+		echo "Making symlink for themes"
+		ln -fs "$SUBDOMAIN_PATH/themes" "$DESTINATION/themes"
+	else 
+		echo "/themes already exists"
+	fi
+else
+	if [ ! -d "$DESTINATION/themes" ]; then
+		echo "Making /themes"
+		mkdir "$DESTINATION/themes"
+	else 
+		echo "/themes already exists"
+	fi
+fi
+
+# Create subdomain.localhost/settings.php
+if [ -f "$DESTINATION/settings.php" ]; then
+	mv "$DESTINATION/settings.php" "$DESTINATION/settings.php.backup"
+fi
+
+echo "Making settings file"
+touch "$DESTINATION/settings.php"
+
+# Add DB connection details 
+
+# Add base_url
+			
+# Add exclusion to .gitignore
+			
+# Create vhost 
+# Set subdomain.localhost -> path
+# Restart apache
+
+echo 
+echo "ALL DONE!"
+echo 
+

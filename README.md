@@ -19,3 +19,18 @@ Note. If you see a message, at the end, similar to "[Symfony\Component\Process\E
 First delete the <vender> folder and then type "php composer.phar install --prefer-source<enter>"
 
 
+Connecting to MySQL
+-------------------
+Use ssh tunnel on port 2222, username "vagrant".
+Use private key (insecure_private_key) that comes with Vagrant. For windows users it's found in \users\<you>\.vagrant.d
+
+
+Install a Site
+--------------
+Important! For windows users - you must run cmd prompt as Administrator
+
+Examples
+./is.sh -n soa -d /var/www/soa/docroot -r /var/www/soa/prod-soa-soa-2013-07-17.sql
+./is.sh -n soa -d /var/www/soa/docroot
+
+
