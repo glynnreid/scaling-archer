@@ -28,6 +28,7 @@ SUBDOMAIN=""
 SUBDOMAIN_PATH=""
 SUBDOMAIN_SETTINGS=""
 DESTINATION=""
+DESTINATION_SETTINGS=""
 DBNAME=""
 
 while getopts d:r:n:s: option
@@ -58,6 +59,7 @@ fi
 
 # Check destination
 DESTINATION="$DRUPALPATH/sites/$NAME.localhost"
+DESTINATION_SETTINGS="$DESTINATION/settings.php"
 if [ -d "$DESTINATION" ]; then
   echo "WARNING: DESTINATION already exists - $DESTINATION"
 fi
@@ -113,15 +115,19 @@ then
 fi
 
 echo
+echo
 echo "Beginning installation"
 echo 
 
 # /usr/bin/mysql -uroot -prootpass -e ""
 
 # Create subdomain DB
+if [ ! -z "$RESTORE" ] ;then
+	echo "Dropping existing DB"
+	/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
+fi
 echo "Create DB"
-/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
-/usr/bin/mysql -uroot -prootpass -e "CREATE DATABASE $DBNAME"
+/usr/bin/mysql -uroot -prootpass -e "CREATE DATABASE IF NOT EXISTS $DBNAME"
 
 # Give permissions for 'drupaluser'
 echo "Grant permissions to drupaluser"
@@ -191,22 +197,40 @@ else
 fi
 
 # Create subdomain.localhost/settings.php
-if [ -f "$DESTINATION/settings.php" ]; then
-	mv "$DESTINATION/settings.php" "$DESTINATION/settings.php.backup"
+if [ -f $DESTINATION_SETTINGS ]; then
+	mv $DESTINATION_SETTINGS "$DESTINATION/settings.php.backup"
 fi
 
 echo "Making settings file"
-touch "$DESTINATION/settings.php"
+cat "/vagrant/app/scripts/templates/settings.template" > "temp.settings"
+sed -i "s|BASEURL|http://$NAME.localhost:8888|g" "temp.settings" 
+sed -i "s|DBNAME|$DBNAME|g" "temp.settings" 
+mv "temp.settings" $DESTINATION_SETTINGS
 
-# Add DB connection details 
-
-# Add base_url
-			
-# Add exclusion to .gitignore
-			
+		
 # Create vhost 
-# Set subdomain.localhost -> path
+echo "Making vhost"
+VHOST="/etc/apache2/sites-available/$NAME.localhost"
+if [ -f $VHOST ]; then
+	sudo rm -f $VHOST
+fi
+
+cat "/vagrant/app/scripts/templates/vhost.template" > "temp.vhost"
+sed -i "s|ServerName localhost|ServerName $NAME.localhost|g" "temp.vhost" 
+sed -i "s|/var/www|$DRUPALPATH|g" "temp.vhost" 
+sudo mv "temp.vhost" $VHOST
+sudo a2ensite "$NAME.localhost"
+# Create subdomain entry in hosts
+
+if ! grep -q "$NAME.localhost" /etc/hosts; then
+    sudo ./uh.sh add "$NAME.localhost"
+fi
+
 # Restart apache
+sudo service apache2 reload
+
+# Add exclusion to .gitignore
+# TODO			
 
 echo 
 echo "ALL DONE!"
