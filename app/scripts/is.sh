@@ -21,7 +21,7 @@ fi
 
 
 DRUPALPATH=""
-RESTORE=""
+RESTORE=
 NAME=""
 SUBDOMAIN=""
 
@@ -122,7 +122,7 @@ echo
 # /usr/bin/mysql -uroot -prootpass -e ""
 
 # Create subdomain DB
-if [ ! -z "$RESTORE" ] ;then
+if [ -n "$RESTORE" -o "$RESTORE" == "" ] ;then
 	echo "Dropping existing DB"
 	/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
 fi
@@ -154,6 +154,8 @@ fi
 if [ ! -d "$SUBDOMAIN_PATH/files" ]; then
 	echo "$SUBDOMAIN_PATH/files does not exist, so making new"
 	mkdir "$SUBDOMAIN_PATH/files"
+	chown -R www-data "$SUBDOMAIN_PATH/files"
+	chmod -R 755 "$SUBDOMAIN_PATH/files"
 fi
 if [ ! -d "$DESTINATION/files" ] && [ ! -h "$DESTINATION/files" ]; then
 	echo "Making symlink for /files"

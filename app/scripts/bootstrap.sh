@@ -14,7 +14,8 @@ then
 	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
 
 	apt-get update
-	apt-get -y install mysql-server mysql-client php5-mysql apache2 php5 php5-cli php5-gd
+	apt-get -y install mysql-server mysql-client apache2
+	apt-get -y install php5-mysql php5 php5-cli php5-gd php-pear php-apc
 	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
 	apt-get -y install git-core
 	
@@ -44,13 +45,21 @@ then
 	# link the web server www root to the shared drive
 	rm -rf /var/www
 	ln -fs /vagrant /var/www
-
+	
+	# set group ownership to www-data
+	chown -R www-data /var/www/
+	chmod -R 755 /var/www/
+	
 	# setup mod_rewrite
 	a2enmod rewrite
 	sed -i '/AllowOverride None/c AllowOverride All' /etc/apache2/sites-available/default
 
 	# set server name
 	echo 'ServerName localhost' >> /etc/apache2/httpd.conf
+	
+	# increase php default memory
+	sed -i "s|memory_limit = 128M|memory_limit = 512M|g" /etc/php5/apache2/php.ini
+	
 	# restart apache server
 	service apache2 restart
 	
@@ -76,6 +85,8 @@ fi
 
 # todo : install solr
 
+# todo : install compass
 
+# todo : permissions on created folders
 
-
+# todo : dns settings /etc/resolvconf/resolv.conf.d/base nameserver 8.8.8.8
