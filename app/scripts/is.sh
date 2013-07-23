@@ -21,7 +21,8 @@ fi
 
 
 DRUPALPATH=""
-RESTORE=
+DROPDB=""
+RESTORE=""
 NAME=""
 SUBDOMAIN=""
 
@@ -31,12 +32,13 @@ DESTINATION=""
 DESTINATION_SETTINGS=""
 DBNAME=""
 
-while getopts d:r:n:s: option
+while getopts d:r:z:n:s: option
 do
         case "${option}"
         in
                 d) DRUPALPATH=${OPTARG};;
                 r) RESTORE=${OPTARG};;
+								z) DROPDB=${OPTARG};;
                 n) NAME=${OPTARG};;
 								s) SUBDOMAIN=${OPTARG};;
         esac
@@ -119,10 +121,9 @@ echo
 echo "Beginning installation"
 echo 
 
-# /usr/bin/mysql -uroot -prootpass -e ""
 
 # Create subdomain DB
-if [ -n "$RESTORE" -o "$RESTORE" == "" ] ;then
+if [ ! -z "$RESTORE" -o ! -z "$DROPDB" ] ;then
 	echo "Dropping existing DB"
 	/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
 fi

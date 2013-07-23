@@ -55,10 +55,12 @@ then
 	sed -i '/AllowOverride None/c AllowOverride All' /etc/apache2/sites-available/default
 
 	# set server name
-	echo 'ServerName localhost' >> /etc/apache2/httpd.conf
+	if ! grep -q "ServerName localhost" /etc/apache2/httpd.conf; then
+    echo 'ServerName localhost' >> /etc/apache2/httpd.conf
+	fi
 	
 	# increase php default memory
-	sed -i "s|memory_limit = 128M|memory_limit = 512M|g" /etc/php5/apache2/php.ini
+	sed -i "s|memory_limit = 128M|memory_limit = 1024M|g" /etc/php5/apache2/php.ini
 	
 	# restart apache server
 	service apache2 restart
@@ -90,3 +92,5 @@ fi
 # todo : permissions on created folders
 
 # todo : dns settings /etc/resolvconf/resolv.conf.d/base nameserver 8.8.8.8
+
+# todo : optomise mysql, apache, php
