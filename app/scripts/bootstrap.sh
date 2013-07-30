@@ -18,6 +18,7 @@ then
 	apt-get -y install php5-mysql php5 php5-cli php5-gd php-pear php-apc
 	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
 	apt-get -y install git-core
+	apt-get -y install nodejs nodejs-dev npm
 	
 	touch /vagrant/app/log/aptsetup
 fi
@@ -43,8 +44,8 @@ if [ ! -f /vagrant/app/log/wwwsetup ];
 then
 
 	# link the web server www root to the shared drive
-	rm -rf /var/www
-	ln -fs /vagrant /var/www
+	#rm -rf /var/www
+	#ln -fs /vagrant /var/www
 	
 	# set group ownership to www-data
 	chown -R www-data /var/www/
@@ -60,7 +61,7 @@ then
 	fi
 	
 	# increase php default memory
-	sed -i "s|memory_limit = 128M|memory_limit = 1024M|g" /etc/php5/apache2/php.ini
+	sed -i "s|memory_limit = 128M|memory_limit = 256M|g" /etc/php5/apache2/php.ini
 	
 	# restart apache server
 	service apache2 restart
@@ -79,10 +80,20 @@ then
 	# update PATH for behat
 	if [ ! -f /etc/profile.d/behat.sh ];
 	then
-		echo 'PATH=$PATH:/vagrant/app' >> /etc/profile.d/behat.sh
+		echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
 	fi
 
 	touch /vagrant/app/log/behatsetup
+fi
+
+# sundry stuff
+if [ ! -f /vagrant/app/log/sundrystuff ];
+then
+
+	# fix for using nano
+	chown vagrant:vagrant /home/vagrant/.nano_history
+
+	touch /vagrant/app/log/sundrystuff
 fi
 
 # todo : install solr
