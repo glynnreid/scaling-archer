@@ -18,6 +18,7 @@ then
 	apt-get -y install php5-mysql php5 php5-cli php5-gd php-pear php-apc
 	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
 	apt-get -y install git-core
+	apt-get -y install build-essential libssl-dev
 	apt-get -y install nodejs nodejs-dev npm
 	
 	touch /vagrant/app/log/aptsetup
@@ -83,16 +84,15 @@ then
 		echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
 	fi
 
+	npm install zombie --global
+	
 	touch /vagrant/app/log/behatsetup
 fi
 
 # sundry stuff
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
-
-	# fix for using nano
-	chown vagrant:vagrant /home/vagrant/.nano_history
-
+	
 	touch /vagrant/app/log/sundrystuff
 fi
 
