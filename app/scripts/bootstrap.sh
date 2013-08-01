@@ -23,7 +23,7 @@ then
 	apt-get -y install python-software-properties python g++ make
 	add-apt-repository ppa:chris-lea/node.js
 	apt-get update
-	apt-get -y install nodejs nodejs-dev npm
+	apt-get -y install nodejs
 
 	touch /vagrant/app/log/aptsetup
 fi
@@ -78,6 +78,11 @@ fi
 if [ ! -f /vagrant/app/log/behatsetup ];
 then
 
+	export NODE_PATH=/usr/lib/node_modules
+	
+	# update npm
+	npm install -g npm
+	 
 	# install zombie
 	npm install -g zombie@0.12.15
 	
@@ -89,7 +94,7 @@ then
 	# update PATH for behat
 	echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
 	echo 'PATH=/usr/local/share/npm/bin:$PATH' >> /etc/profile.d/behat.sh
-	echo 'NODE_PATH=/usr/local/lib/node_modules' >> /etc/profile.d/behat.sh
+	echo 'NODE_PATH=/usr/lib/node_modules' >> /etc/profile.d/behat.sh
 	chmod a+x /etc/profile.d/behat.sh
 
 	touch /vagrant/app/log/behatsetup
