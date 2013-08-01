@@ -21,9 +21,9 @@ then
 	apt-get -y install build-essential openssl libssl-dev
 	
 	apt-get -y install python-software-properties python g++ make
-	add-apt-repository ppa:chris-lea/node.js
+	add-apt-repository ppa:chris-lea/node.js-legacy
 	apt-get update
-	apt-get -y install nodejs
+	apt-get -y install nodejs npm nodejs-dev
 
 	touch /vagrant/app/log/aptsetup
 fi
@@ -81,7 +81,7 @@ then
 	export NODE_PATH=/usr/lib/node_modules
 	
 	# update npm
-	npm install -g npm
+	#npm install -g npm
 	 
 	# install zombie
 	npm install -g zombie@0.12.15
@@ -92,11 +92,14 @@ then
 	cd ~
 	
 	# update PATH for behat
-	echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
-	echo 'PATH=/usr/local/share/npm/bin:$PATH' >> /etc/profile.d/behat.sh
-	echo 'NODE_PATH=/usr/lib/node_modules' >> /etc/profile.d/behat.sh
-	chmod a+x /etc/profile.d/behat.sh
+	echo 'PATH=$PATH:/vagrant/app/bin:usr/local/share/npm/bin:$PATH' >> /etc/profile.d/vagrant.sh
+	echo 'NODE_PATH=/usr/lib/node_modules' >> /etc/profile.d/vagrant.sh
+	chmod a+x /etc/profile.d/vagrant.sh
 
+	# fix contextify
+	sed -i "s|build/default/contextify|build/Release/contextify|g" /usr/lib/node_modules/zombie/node_modules/jsdom/node_modules/contextify/lib/contextify.js
+
+	
 	touch /vagrant/app/log/behatsetup
 fi
 
