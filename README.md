@@ -16,7 +16,7 @@ The first time will take quite a while. Vagrant will download a VirtualBox image
 Vagrant will then install and configure the entire LAMP stack + Behat, and a few other bits.
 
 Note. If you see a message, at the end, similar to "[Symfony\Component\Process\Exception\RuntimeException] The process timed-out." then you will need to re-install behat.
-First delete the <vender> folder and then type "php composer.phar install --prefer-source<enter>"
+First delete the <vendor> folder and then type "php composer.phar install --prefer-source<enter>"
 
 
 Connecting to MySQL

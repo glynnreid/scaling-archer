@@ -18,9 +18,13 @@ then
 	apt-get -y install php5-mysql php5 php5-cli php5-gd php-pear php-apc
 	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
 	apt-get -y install git-core
-	apt-get -y install build-essential libssl-dev
-	apt-get -y install nodejs nodejs-dev npm
+	apt-get -y install build-essential openssl libssl-dev
 	
+	apt-get -y install python-software-properties python g++ make
+	add-apt-repository ppa:chris-lea/node.js
+	apt-get update
+	apt-get -y install nodejs nodejs-dev npm
+
 	touch /vagrant/app/log/aptsetup
 fi
 	
@@ -73,19 +77,21 @@ fi
 # install behat
 if [ ! -f /vagrant/app/log/behatsetup ];
 then
+
+	# install zombie
+	npm install -g zombie@0.12.15
+	
 	cd /vagrant/app
 	curl http://getcomposer.org/installer | php
-	php composer.phar install
+	php composer.phar install --prefer-dist
 	cd ~
 	
 	# update PATH for behat
-	if [ ! -f /etc/profile.d/behat.sh ];
-	then
-		echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
-	fi
+	echo 'PATH=$PATH:/vagrant/app/bin' >> /etc/profile.d/behat.sh
+	echo 'PATH=/usr/local/share/npm/bin:$PATH' >> /etc/profile.d/behat.sh
+	echo 'NODE_PATH=/usr/local/lib/node_modules' >> /etc/profile.d/behat.sh
+	chmod a+x /etc/profile.d/behat.sh
 
-	npm install zombie --global
-	
 	touch /vagrant/app/log/behatsetup
 fi
 
@@ -93,6 +99,16 @@ fi
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
 	
+	#mkdir -p ~/tmp/solr/
+	#cd ~/tmp/solr/
+	#wget http://apache.ziply.com/lucene/solr/4.4.0/solr-4.4.0.tgz  
+	#tar xzvf solr-4.4.0.tgz  
+	
+	#mkdir -p /var/solr
+	#cp solr-4.4.0/dist/solr-4.4.0.war /var/solr/solr.war
+	#cp -R solr-4.4.0/example/multicore/* /var/solr/
+	#chown -R vagrant /var/solr/
+
 	touch /vagrant/app/log/sundrystuff
 fi
 
