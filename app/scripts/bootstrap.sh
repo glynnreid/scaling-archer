@@ -21,9 +21,8 @@ then
 	apt-get -y install build-essential openssl libssl-dev
 	
 	apt-get -y install python-software-properties python g++ make
-	add-apt-repository ppa:chris-lea/node.js-legacy
-	apt-get update
-	apt-get -y install nodejs npm nodejs-dev
+	#apt-get -y install nodejs npm nodejs-dev
+	apt-get -y install npm
 
 	touch /vagrant/app/log/aptsetup
 fi
@@ -77,28 +76,34 @@ fi
 # install behat
 if [ ! -f /vagrant/app/log/behatsetup ];
 then
-
-	export NODE_PATH=/usr/lib/node_modules
+	export PATH=$PATH:/vagrant/app/bin:/usr/local/lib/node_modules/npm/bin
+	export NODE_PATH=/usr/local/lib/node_modules
 	
-	# update npm
-	#npm install -g npm
-	 
+	# install n
+	npm install -g n
+	
+	# install specific version of nodejs
+	n 0.8.23
+	
 	# install zombie
-	npm install -g zombie@0.12.15
+	npm install -g zombie@1.4.0
 	
+	# install missing dependency
+	npm install -g graceful-fs
+	
+	# install behat
 	cd /vagrant/app
 	curl http://getcomposer.org/installer | php
 	php composer.phar install --prefer-dist
 	cd ~
 	
 	# update PATH for behat
-	echo 'PATH=$PATH:/vagrant/app/bin:usr/local/share/npm/bin:$PATH' >> /etc/profile.d/vagrant.sh
-	echo 'NODE_PATH=/usr/lib/node_modules' >> /etc/profile.d/vagrant.sh
-	chmod a+x /etc/profile.d/vagrant.sh
-
-	# fix contextify
-	sed -i "s|build/default/contextify|build/Release/contextify|g" /usr/lib/node_modules/zombie/node_modules/jsdom/node_modules/contextify/lib/contextify.js
-
+	if [ ! -f /etc/profile.d/vagrant.sh ];
+	then
+		echo 'export PATH=$PATH:/vagrant/app/bin:/usr/local/lib/node_modules/npm/bin' >> /etc/profile.d/vagrant.sh
+		echo 'export NODE_PATH=/usr/local/lib/node_modules' >> /etc/profile.d/vagrant.sh
+		chmod a+x /etc/profile.d/vagrant.sh
+	fi
 	
 	touch /vagrant/app/log/behatsetup
 fi
