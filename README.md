@@ -37,7 +37,7 @@ Options:
 -s : Subdomain (optional, default "default")
 
 Examples
-./is.sh -n soa -d /vagrant/soa -r /var/www/soa/prod-soa-soa-2013-07-17.sql
+./is.sh -n soa -c /vagrant/soa -r /var/www/soa/prod-soa-soa-2013-07-17.sql
 ./is.sh -n soa -c /vagrant/soa
 
 

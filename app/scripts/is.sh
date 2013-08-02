@@ -80,7 +80,7 @@ fi
 SUBDOMAIN_PATH="$DESTPATH/sites/$SUBDOMAIN"
 
 # Build path to settings file
-SUBDOMAIN_SETTINGS="$SUBDOMAIN_PATH/settings.php"
+SUBDOMAIN_SETTINGS="$CODEPATH/sites/$SUBDOMAIN/settings.php"
 if [ ! -f "$SUBDOMAIN_SETTINGS" ]; then
   echo "ERROR: SETTINGS FILE does not exist - $SUBDOMAIN_SETTINGS"
 	exit 5
