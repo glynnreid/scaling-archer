@@ -65,7 +65,7 @@ if [ -z "$DESTPATH" ] ;then
 fi
 
 # Check destination
-DESTINATION="$DRUPALPATH/sites/$NAME.localhost"
+DESTINATION="$DESTPATH/sites/$NAME.localhost"
 DESTINATION_SETTINGS="$DESTINATION/settings.php"
 if [ -d "$DESTINATION" ]; then
   echo "WARNING: DESTINATION already exists - $DESTINATION"
@@ -77,7 +77,7 @@ if [ -z "$SUBDOMAIN" ] ;then
 fi
 
 # Build path to subdomain
-SUBDOMAIN_PATH="$DRUPALPATH/sites/$SUBDOMAIN"
+SUBDOMAIN_PATH="$DESTPATH/sites/$SUBDOMAIN"
 
 # Build path to settings file
 SUBDOMAIN_SETTINGS="$SUBDOMAIN_PATH/settings.php"
@@ -233,7 +233,7 @@ fi
 
 cat "/vagrant/app/scripts/templates/vhost.template" > "temp.vhost"
 sed -i "s|ServerName localhost|ServerName $NAME.localhost|g" "temp.vhost" 
-sed -i "s|/var/www|$DRUPALPATH|g" "temp.vhost" 
+sed -i "s|/var/www|$DESTPATH|g" "temp.vhost" 
 sudo mv "temp.vhost" $VHOST
 sudo a2ensite "$NAME.localhost"
 # Create subdomain entry in hosts
