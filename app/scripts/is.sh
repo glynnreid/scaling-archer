@@ -19,8 +19,8 @@ HELP
 exit 0
 fi
 
-
-DRUPALPATH=""
+CODEPATH=""
+DESTPATH=""
 DROPDB=""
 RESTORE=""
 NAME=""
@@ -32,11 +32,12 @@ DESTINATION=""
 DESTINATION_SETTINGS=""
 DBNAME=""
 
-while getopts d:r:z:n:s: option
+while getopts c:d:r:z:n:s: option
 do
         case "${option}"
         in
-                d) DRUPALPATH=${OPTARG};;
+								c) CODEPATH=${OPTARG};;
+                d) DESTPATH=${OPTARG};;
                 r) RESTORE=${OPTARG};;
 								z) DROPDB=${OPTARG};;
                 n) NAME=${OPTARG};;
@@ -48,8 +49,8 @@ done
 echo
 
 # Check path
-if [ ! -d "$DRUPALPATH" ]; then
-  echo "ERROR: Directory does not exist - $DRUPALPATH"
+if [ ! -d "$CODEPATH" ]; then
+  echo "ERROR: Code Directory does not exist - $CODEPATH"
 	exit 1
 fi
 
@@ -57,6 +58,10 @@ fi
 if [ -z "$NAME" ] ;then
 	echo "ERROR: No Name. Please use -n to specify the name"
 	exit 2
+fi
+
+if [ -z "$DESTPATH" ] ;then
+	DESTPATH="/var/www/$NAME"
 fi
 
 # Check destination
@@ -96,7 +101,8 @@ echo
 echo "Installing new site"
 
 echo "NAME : $NAME"
-echo "DRUPALPATH : $DRUPALPATH"
+echo "CODEPATH : $CODEPATH"
+echo "DESTPATH : $DESTPATH"
 echo "SUBDOMAIN : $SUBDOMAIN"
 echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
 echo "SUBDOMAIN_SETTINGS : $SUBDOMAIN_SETTINGS"
@@ -121,6 +127,13 @@ echo
 echo "Beginning installation"
 echo 
 
+# Create destination path and copy source
+if [ ! -d "$DESTPATH" ]; then
+	echo "Making $DESTPATH"
+	mkdir $DESTPATH
+fi
+	
+cp -R $CODEPATH/* $DESTPATH
 
 # Create subdomain DB
 if [ ! -z "$RESTORE" -o ! -z "$DROPDB" ] ;then

@@ -31,12 +31,13 @@ Important! For windows users - you must run cmd prompt as Administrator
 
 Options:
 -n : Name
--d : Drupal installation (full path)
+-c : Code path (full path)
+-d : Destination path (full path, optional)
 -r : Restore DB file (full path, optional)
 -s : Subdomain (optional, default "default")
 
 Examples
-./is.sh -n soa -d /var/www/soa/docroot -r /var/www/soa/prod-soa-soa-2013-07-17.sql
-./is.sh -n soa -d /var/www/soa/docroot
+./is.sh -n soa -d /vagrant/soa -r /var/www/soa/prod-soa-soa-2013-07-17.sql
+./is.sh -n soa -c /vagrant/soa
 
 
