@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+MYSQLROOTPASS="rootpass"
 
 # make a directory for vagrant logs
 if [ ! -f /vagrant/app/log ];
@@ -14,15 +15,7 @@ then
 	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
 
 	apt-get update
-	apt-get -y install mysql-server mysql-client apache2
-	apt-get -y install php5-mysql php5 php5-cli php5-gd php-pear php-apc
-	apt-get -y install curl libcurl3 libcurl3-dev php5-curl
-	apt-get -y install git-core
-	apt-get -y install build-essential openssl libssl-dev
-	
-	apt-get -y install python-software-properties python g++ make
-	#apt-get -y install nodejs npm nodejs-dev
-	apt-get -y install npm
+	apt-get -y install mysql-server mysql-client apache2 curl libcurl3 libcurl3-dev openjdk-7-jdk php5-mysql php5 php5-cli php5-gd php-pear php-apc php5-curl git-core build-essential openssl libssl-dev python-software-properties python g++ make npm
 
 	touch /vagrant/app/log/aptsetup
 fi
@@ -30,10 +23,10 @@ fi
 # configure a user for the DB
 if [ ! -f /vagrant/app/log/databasesetup ];
 then
-    echo "CREATE USER 'drupaluser'@'localhost' IDENTIFIED BY ''" | mysql -uroot -prootpass
-    echo "CREATE DATABASE drupal" | mysql -uroot -prootpass
-    echo "GRANT ALL ON drupal.* TO 'drupaluser'@'localhost'" | mysql -uroot -prootpass
-    echo "flush privileges" | mysql -uroot -prootpass
+    echo "CREATE USER 'drupaluser'@'localhost' IDENTIFIED BY ''" | mysql -uroot -p$MYSQLROOTPASS
+    echo "CREATE DATABASE drupal" | mysql -uroot -p$MYSQLROOTPASS
+    echo "GRANT ALL ON drupal.* TO 'drupaluser'@'localhost'" | mysql -uroot -pr$MYSQLROOTPASS
+    echo "flush privileges" | mysql -uroot -p$MYSQLROOTPASS
 
     if [ -f /vagrant/data/initial.sql ];
     then
@@ -52,7 +45,7 @@ then
 	#ln -fs /vagrant /var/www
 	
 	# set group ownership to www-data
-	chown -R www-data /var/www/
+	chown -R vagrant:www-data /var/www/
 	chmod -R 755 /var/www/
 	
 	# setup mod_rewrite
@@ -76,8 +69,8 @@ fi
 # install behat
 if [ ! -f /vagrant/app/log/behatsetup ];
 then
-	export PATH=$PATH:/vagrant/app/bin:/usr/local/lib/node_modules/npm/bin
-	export NODE_PATH=/usr/local/lib/node_modules
+
+	#npm config set registry http://registry.npmjs.org/
 	
 	# install n
 	npm install -g n
@@ -85,22 +78,24 @@ then
 	# install specific version of nodejs
 	n 0.8.23
 	
+	mkdir /usr/local/behat
+	cp /vagrant/app/downloads/composer.json /usr/local/behat/composer.json
+	cd /usr/local/behat
+	curl http://getcomposer.org/installer | php
+	php composer.phar install --prefer-dist
+
 	# install zombie
 	npm install -g zombie@1.4.0
 	
 	# install missing dependency
-	npm install -g graceful-fs
-	
-	# install behat
-	cd /vagrant/app
-	curl http://getcomposer.org/installer | php
-	php composer.phar install --prefer-dist
-	cd ~
-	
+	#npm install -g graceful-fs
+		
 	# update PATH for behat
 	if [ ! -f /etc/profile.d/vagrant.sh ];
 	then
-		echo 'export PATH=$PATH:/vagrant/app/bin:/usr/local/lib/node_modules/npm/bin' >> /etc/profile.d/vagrant.sh
+		echo 'export PATH=$PATH:/usr/local/behat/bin' >> /etc/profile.d/vagrant.sh
+		echo 'export PATH=$PATH:/vagrant/app/scripts' >> /etc/profile.d/vagrant.sh
+		echo 'export PATH=$PATH:/usr/local/lib/node_modules/npm/bin' >> /etc/profile.d/vagrant.sh
 		echo 'export NODE_PATH=/usr/local/lib/node_modules' >> /etc/profile.d/vagrant.sh
 		chmod a+x /etc/profile.d/vagrant.sh
 	fi
@@ -111,6 +106,10 @@ fi
 # sundry stuff
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
+	
+	# make sure the scripts have the correct permissions to execute
+	chmod a+x /vagrant/app/scripts/is.sh
+	chmod a+x /vagrant/app/scripts/uh.sh
 	
 	#mkdir -p ~/tmp/solr/
 	#cd ~/tmp/solr/
@@ -128,8 +127,6 @@ fi
 # todo : install solr
 
 # todo : install compass
-
-# todo : permissions on created folders
 
 # todo : dns settings /etc/resolvconf/resolv.conf.d/base nameserver 8.8.8.8
 

@@ -1,4 +1,5 @@
 #!/bin/bash
+MYSQLROOTPASS="rootpass"
 
 # Help funtion
 HELP() {
@@ -82,8 +83,8 @@ SUBDOMAIN_PATH="$DESTPATH/sites/$SUBDOMAIN"
 # Build path to settings file
 SUBDOMAIN_SETTINGS="$CODEPATH/sites/$SUBDOMAIN/settings.php"
 if [ ! -f "$SUBDOMAIN_SETTINGS" ]; then
-  echo "ERROR: SETTINGS FILE does not exist - $SUBDOMAIN_SETTINGS"
-	exit 5
+  echo "WARNING: SETTINGS FILE does not exist - $SUBDOMAIN_SETTINGS"
+	#exit 5
 fi
 
 # Check RESTORE sql file
@@ -105,7 +106,7 @@ echo "CODEPATH : $CODEPATH"
 echo "DESTPATH : $DESTPATH"
 echo "SUBDOMAIN : $SUBDOMAIN"
 echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
-echo "SUBDOMAIN_SETTINGS : $SUBDOMAIN_SETTINGS"
+#echo "SUBDOMAIN_SETTINGS : $SUBDOMAIN_SETTINGS"
 echo "DESTINATION : $DESTINATION"
 echo "DBNAME : $DBNAME"
 echo "RESTORE : $RESTORE"
@@ -134,24 +135,28 @@ if [ ! -d "$DESTPATH" ]; then
 fi
 	
 cp -R $CODEPATH/* $DESTPATH
+cp $CODEPATH/.htaccess $DESTPATH
 
+chown -R vagrant:www-data $DESTPATH
+chmod -R 755 $DESTPATH
+	
 # Create subdomain DB
 if [ ! -z "$RESTORE" -o ! -z "$DROPDB" ] ;then
 	echo "Dropping existing DB"
-	/usr/bin/mysql -uroot -prootpass -e "DROP DATABASE IF EXISTS $DBNAME"
+	/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "DROP DATABASE IF EXISTS $DBNAME"
 fi
 echo "Create DB"
-/usr/bin/mysql -uroot -prootpass -e "CREATE DATABASE IF NOT EXISTS $DBNAME"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "CREATE DATABASE IF NOT EXISTS $DBNAME"
 
 # Give permissions for 'drupaluser'
 echo "Grant permissions to drupaluser"
-/usr/bin/mysql -uroot -prootpass -e "GRANT ALL ON $DBNAME.* TO 'drupaluser'@'localhost'"
-/usr/bin/mysql -uroot -prootpass -e "flush privileges"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "GRANT ALL ON $DBNAME.* TO 'drupaluser'@'localhost'"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "flush privileges"
 
 # Restore DB
 if [ ! -z "$RESTORE" ] ;then
 	echo "Restoring file : $RESTORE"
-	/usr/bin/mysql -uroot -prootpass $DBNAME < $RESTORE
+	/usr/bin/mysql -uroot -p$MYSQLROOTPASS $DBNAME < $RESTORE
 fi
 			
 # Create destination
@@ -168,8 +173,8 @@ fi
 if [ ! -d "$SUBDOMAIN_PATH/files" ]; then
 	echo "$SUBDOMAIN_PATH/files does not exist, so making new"
 	mkdir "$SUBDOMAIN_PATH/files"
-	chown -R www-data "$SUBDOMAIN_PATH/files"
-	chmod -R 755 "$SUBDOMAIN_PATH/files"
+	chown -R vagrant:www-data "$SUBDOMAIN_PATH/files"
+	chmod -R 775 "$SUBDOMAIN_PATH/files"
 fi
 if [ ! -d "$DESTINATION/files" ] && [ ! -h "$DESTINATION/files" ]; then
 	echo "Making symlink for /files"
