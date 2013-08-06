@@ -78,6 +78,9 @@ then
 	# install specific version of nodejs
 	n 0.8.23
 	
+	# install missing dependency
+	npm install -g graceful-fs
+	
 	mkdir /usr/local/behat
 	cp /vagrant/app/downloads/composer.json /usr/local/behat/composer.json
 	cd /usr/local/behat
@@ -87,9 +90,6 @@ then
 	# install zombie
 	npm install -g zombie@1.4.0
 	
-	# install missing dependency
-	#npm install -g graceful-fs
-		
 	# update PATH for behat
 	if [ ! -f /etc/profile.d/vagrant.sh ];
 	then
