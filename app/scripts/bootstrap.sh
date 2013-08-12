@@ -88,7 +88,7 @@ then
 	php composer.phar install --prefer-dist
 
 	# install zombie
-	npm install -g zombie@1.4.0
+	npm install -g zombie@1.4.1
 	
 	# update PATH for behat
 	if [ ! -f /etc/profile.d/vagrant.sh ];
