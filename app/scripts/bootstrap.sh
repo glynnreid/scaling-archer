@@ -66,50 +66,16 @@ then
 	touch /vagrant/app/log/wwwsetup
 fi
 
-# install behat
-if [ ! -f /vagrant/app/log/behatsetup ];
-then
-
-	#npm config set registry http://registry.npmjs.org/
-	
-	# install n
-	npm install -g n
-	
-	# install specific version of nodejs
-	n 0.8.23
-	
-	# install missing dependency
-	npm install -g graceful-fs
-	
-	mkdir /usr/local/behat
-	cp /vagrant/app/downloads/composer.json /usr/local/behat/composer.json
-	cd /usr/local/behat
-	curl http://getcomposer.org/installer | php
-	php composer.phar install --prefer-dist
-
-	# install zombie
-	npm install -g zombie@1.4.1
-	
-	# update PATH for behat
-	if [ ! -f /etc/profile.d/vagrant.sh ];
-	then
-		echo 'export PATH=$PATH:/usr/local/behat/bin' >> /etc/profile.d/vagrant.sh
-		echo 'export PATH=$PATH:/vagrant/app/scripts' >> /etc/profile.d/vagrant.sh
-		echo 'export PATH=$PATH:/usr/local/lib/node_modules/npm/bin' >> /etc/profile.d/vagrant.sh
-		echo 'export NODE_PATH=/usr/local/lib/node_modules' >> /etc/profile.d/vagrant.sh
-		chmod a+x /etc/profile.d/vagrant.sh
-	fi
-	
-	touch /vagrant/app/log/behatsetup
-fi
-
 # sundry stuff
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
-	
+
 	# make sure the scripts have the correct permissions to execute
 	chmod a+x /vagrant/app/scripts/is.sh
 	chmod a+x /vagrant/app/scripts/uh.sh
+	chmod a+x /vagrant/app/scripts/install-behat.sh
+	chmod a+x /vagrant/app/scripts/install-zombie.sh
+	chmod a+x /vagrant/app/scripts/re-install-behat.sh
 	
 	#mkdir -p ~/tmp/solr/
 	#cd ~/tmp/solr/
@@ -123,6 +89,10 @@ then
 
 	touch /vagrant/app/log/sundrystuff
 fi
+
+echo 
+echo "ALL DONE!"
+echo "You can now login using 'vagrant ssh'"
 
 # todo : install solr
 
