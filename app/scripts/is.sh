@@ -114,7 +114,7 @@ echo
 echo "WARNING! Proceeding will overwrite any existing settings and DB"
 echo
 
-read -p "Are you sure? " -n 1 -r
+read -p "Are you sure? (y/N) " -n 1 -r
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
     echo
