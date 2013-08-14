@@ -1,18 +1,27 @@
 #!/usr/bin/env bash
 MYSQLROOTPASS="rootpass"
 
-# make a directory for vagrant logs
-if [ ! -f /vagrant/app/log ];
+
+if [ ! -f /vagrant/app/log/initsetup ];
 then
-	mkdir -p /vagrant/app/log
+  # make a directory for vagrant logs
+  if [ ! -f /vagrant/app/log ];
+  then
+	  mkdir -p /vagrant/app/log
+  fi
+
+  # make sure the scripts have the correct permissions to execute
+  chmod a+x /vagrant/app/scripts/*.sh
+
+  touch /vagrant/app/log/initsetup
 fi
 
 # install the LAMP stack
 if [ ! -f /vagrant/app/log/aptsetup ];
 then
 
-	debconf-set-selections <<< 'mysql-server mysql-server/root_password password rootpass'
-	debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password rootpass'
+	debconf-set-selections <<< "mysql-server mysql-server/root_password password $MYSQLROOTPASS"
+	debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $MYSQLROOTPASS"
 
 	apt-get update
 	apt-get -y install mysql-server mysql-client apache2 curl libcurl3 libcurl3-dev openjdk-7-jdk php5-mysql php5 php5-cli php5-gd php-pear php-apc php5-curl git-core build-essential openssl libssl-dev python-software-properties python g++ make npm
@@ -25,7 +34,7 @@ if [ ! -f /vagrant/app/log/databasesetup ];
 then
     echo "CREATE USER 'drupaluser'@'localhost' IDENTIFIED BY ''" | mysql -uroot -p$MYSQLROOTPASS
     echo "CREATE DATABASE drupal" | mysql -uroot -p$MYSQLROOTPASS
-    echo "GRANT ALL ON drupal.* TO 'drupaluser'@'localhost'" | mysql -uroot -pr$MYSQLROOTPASS
+    echo "GRANT ALL ON drupal.* TO 'drupaluser'@'localhost'" | mysql -uroot -p$MYSQLROOTPASS
     echo "flush privileges" | mysql -uroot -p$MYSQLROOTPASS
 
     if [ -f /vagrant/data/initial.sql ];
@@ -39,10 +48,6 @@ fi
 # configure web server
 if [ ! -f /vagrant/app/log/wwwsetup ];
 then
-
-	# link the web server www root to the shared drive
-	#rm -rf /var/www
-	#ln -fs /vagrant /var/www
 	
 	# set group ownership to www-data
 	chown -R vagrant:www-data /var/www/
@@ -66,24 +71,15 @@ then
 	touch /vagrant/app/log/wwwsetup
 fi
 
-# install behat
-if [ ! -f /vagrant/app/log/behatsetup ];
-then
-	echo "Trying to install BEHAT"
-		
-	./install-behat.sh
-  ./install-phantomjs.sh
-	
-	touch /vagrant/app/log/behatsetup
-fi
-
 # sundry stuff
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
 
-	# make sure the scripts have the correct permissions to execute
-	chmod a+x /vagrant/app/scripts/*.sh
-	
+  # install drush
+	pear channel-discover pear.drush.org
+	pear install drush/drush
+	drush version
+
 	#mkdir -p ~/tmp/solr/
 	#cd ~/tmp/solr/
 	#wget http://apache.ziply.com/lucene/solr/4.4.0/solr-4.4.0.tgz  

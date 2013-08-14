@@ -15,9 +15,13 @@ Install
 The first time will take quite a while. Vagrant will download a VirtualBox image (called a "Box") which is about 270 Mb. It will do this only once.
 Vagrant will then install and configure the entire LAMP stack, and a few other bits.
 
+Note. BEHAT and PHANTOMJS will be automatically installed by bootstrap.sh
+However if you need to re-install, first delete the file /vagrant/app/log/behatsetup
+
 To install BEHAT :
 
 	sudo /vagrant/app/scripts/install-behat.sh
+	(You may need to exit and re-enter vagrant)
 
 IF the BEHAT installation fails, you can retry with:
 
@@ -39,7 +43,6 @@ Test ZOMBIE:
 	behat 
 
 
-
 To install PHANTOM:
 	
 	sudo /vagrant/app/scripts/install-phantomjs.sh
@@ -47,8 +50,8 @@ To install PHANTOM:
 Test PHANTOM:
 	
 	cd /vagrant/tests/example-phantomjs
-	phantomjs --webdriver=8643 &
-	behat -p phantomjs
+	phantom.start.sh	(phantomjs --webdriver=8643 &)
+	phantom.sh (behat -p phantomjs)
 
 
 Connecting to MySQL

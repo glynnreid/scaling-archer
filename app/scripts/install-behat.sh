@@ -1,5 +1,7 @@
 #!/bin/bash
 
+if [ ! -f /vagrant/app/log/behatsetup ];
+then
 # install behat
 echo "Trying to install BEHAT"
 	
@@ -21,4 +23,5 @@ then
 fi
 
 touch /vagrant/app/log/behatsetup
+fi
 
