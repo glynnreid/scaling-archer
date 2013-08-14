@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Tring to install phantomjs"
 cd /usr/local/share
 
 wget https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2 

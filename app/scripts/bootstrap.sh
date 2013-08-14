@@ -66,16 +66,23 @@ then
 	touch /vagrant/app/log/wwwsetup
 fi
 
+# install behat
+if [ ! -f /vagrant/app/log/behatsetup ];
+then
+	echo "Trying to install BEHAT"
+		
+	./install-behat.sh
+  ./install-phantomjs.sh
+	
+	touch /vagrant/app/log/behatsetup
+fi
+
 # sundry stuff
 if [ ! -f /vagrant/app/log/sundrystuff ];
 then
 
 	# make sure the scripts have the correct permissions to execute
-	chmod a+x /vagrant/app/scripts/is.sh
-	chmod a+x /vagrant/app/scripts/uh.sh
-	chmod a+x /vagrant/app/scripts/install-behat.sh
-	chmod a+x /vagrant/app/scripts/install-zombie.sh
-	chmod a+x /vagrant/app/scripts/re-install-behat.sh
+	chmod a+x /vagrant/app/scripts/*.sh
 	
 	#mkdir -p ~/tmp/solr/
 	#cd ~/tmp/solr/
