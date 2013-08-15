@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Help funtion
+HELP() {
+	echo ""
+	echo "Usage:"
+	echo "-n : Name for this installation."
+        echo "-d : Destination path"
+	echo ""
+}
+# end help funtion
+
+#If no argument given, show HELP and exit
+if [ $# -lt 1 ] ;then
+HELP
+exit 0
+fi
+
+DESTPATH=""
+NAME=""
+REPO=""
+
+while getopts n:d: option
+do
+        case "${option}"
+        in
+                d) DESTPATH=${OPTARG};;
+                n) NAME=${OPTARG};;
+        esac
+done
+
+# spacer
+echo
+
+
+# Check name
+if [ -z "$NAME" ] ;then
+	echo "ERROR: No Name. Please use -n to specify the name"
+	exit 2
+fi
+
+REPO=~/repos/$NAME.git
+
+if [ -z "$DESTPATH" ] ;then
+	DESTPATH="/var/www/sites/$NAME"
+fi
+
+
+echo
+echo "Installing new site"
+
+echo "NAME : $NAME"
+echo "REPO : $REPO"
+echo "DESTPATH : $DESTPATH"
+echo
+
+read -p "Are you sure? (y/N) " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo
+    echo "Not installing"
+    echo
+    exit 9
+fi
+
+echo
+echo
+echo "Beginning installation"
+echo
+
+if [ ! -d ~/repos ]; then
+  mkdir ~/repos
+fi
+
+# Create destination path and copy source
+if [ ! -d "$DESTPATH" ]; then
+  echo "Making $DESTPATH"
+  mkdir $DESTPATH
+  sudo chown vagrant:www-data $DESTPATH
+  sudo chmod 766 $DESTPATH
+fi
+
+
+if [ ! -d "$REPO" ]; then
+  echo "Making Repo"
+  mkdir $REPO
+  cd $REPO
+  git init --bare
+  touch hooks/post-receive
+
+  echo "#!/bin/sh" >> hooks/post-receive
+  echo "GIT_WORK_TREE=$DESTPATH git checkout -f" >> hooks/post-receive
+
+  sudo chmod +x hooks/post-receive
+fi
+
+
+echo
+echo "ALL DONE!"
+echo
+echo "Add remote to your git project : vagrant@<domain>:repos/$NAME.git"
+echo "Where <domain> is the local domain you set up earlier, or "
+echo "the static IP 192.168.50.4"
+echo
+echo "eg. vagrant@192.168.50.4:repos/$NAME.git"
+echo
+
+
