@@ -80,6 +80,7 @@ then
 	pear install drush/drush
 	drush version
 
+	drush dl registry_rebuild
 	#mkdir -p ~/tmp/solr/
 	#cd ~/tmp/solr/
 	#wget http://apache.ziply.com/lucene/solr/4.4.0/solr-4.4.0.tgz  
