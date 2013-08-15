@@ -17,9 +17,7 @@ The box comes configured with the entire LAMP stack, BEHAT, PHANTOMJS, DRUSH (an
 
 New* 
 
-Now has a static IP : 192.168.50.4 and a git repository available as 
-	
-	vagrant@192.168.50.4:code.git
+Now has a static IP : 192.168.50.4 
 
 
 Testing BEHAT
@@ -48,6 +46,21 @@ Install a Site
 --------------
 Important! For windows users - you must run cmd prompt as Administrator
 
+Create a home for code by using the script "git-install"
+
+Options:
+-n : Name
+-d : Directory to install to
+
+This will create a directory in /var/www/sites/<name> , unless overridden by -d
+It will also create a repo in ~/repos called <name>.git
+
+Now you can add a new remote to your project in your host OS : vagrant@192.168.50.4:repos/<name>.git
+
+The repo has a post-receive hook and will auto-deploy to the directory from above
+
+
+** Tje following is OUT OF DATE and NEEDS REVISING **
 Options:
 -n : Name
 -c : Code path (full path)
@@ -63,4 +76,9 @@ Examples
 	./is.sh -n soa -c /vagrant/soa
 
 
+	
+notes.
+	
+	$ ssh -i "c:\Users\Glynn\.vagrant.d\insecure_private_key" vagrant@192.168.50.4:
+2222 'ls -All'
 
