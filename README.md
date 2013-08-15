@@ -15,6 +15,8 @@ Install
 The first time will take quite a while. Vagrant will download a VirtualBox image (called a "Box") which is about 750 Mb. It will do this only once.
 The box comes configured with the entire LAMP stack, BEHAT, PHANTOMJS, DRUSH, and a few other bits.
 
+Testing BEHAT
+--------------
 Test BEHAT:
 	
 	cd /vagrant/tests/example	
@@ -53,4 +55,9 @@ Examples
 
 	./is.sh -n soa -c /vagrant/soa
 
+
+Install DRUSH RR
+----------------
+
+	drush dl registry_rebuild
 
