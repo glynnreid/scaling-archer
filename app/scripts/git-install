@@ -19,14 +19,15 @@ fi
 DESTPATH=""
 NAME=""
 REPO=""
+DOCROOT="/var/www"
 
 while getopts n:d: option
 do
-        case "${option}"
-        in
-                d) DESTPATH=${OPTARG};;
-                n) NAME=${OPTARG};;
-        esac
+   case "${option}"
+   in
+     d) DESTPATH=${OPTARG};;
+     n) NAME=${OPTARG};;
+   esac
 done
 
 # spacer
@@ -42,7 +43,7 @@ fi
 REPO=~/repos/$NAME.git
 
 if [ -z "$DESTPATH" ] ;then
-	DESTPATH="/var/www/sites/$NAME"
+	DESTPATH="$DOCROOT/$NAME"
 fi
 
 
@@ -72,6 +73,15 @@ if [ ! -d ~/repos ]; then
   mkdir ~/repos
 fi
 
+#check that docroot exists
+if [ ! -d "$DOCROOT" ]; then
+  echo "Making $DOCROOT"
+  mkdir $DOCROOT
+  sudo chown vagrant:www-data $DOCROOT
+  sudo chmod 766 $DOCROOT
+fi
+
+
 # Create destination path and copy source
 if [ ! -d "$DESTPATH" ]; then
   echo "Making $DESTPATH"
@@ -90,7 +100,8 @@ if [ ! -d "$REPO" ]; then
 
   echo "#!/bin/sh" >> hooks/post-receive
   echo "GIT_WORK_TREE=$DESTPATH git checkout -f" >> hooks/post-receive
-
+  echo "sudo chown -R :www-data $DESTPATH" >> hooks/post-receive
+  echo "sudo chmod -R 774 $DESTPATH" >> hooks/post-receive
   sudo chmod +x hooks/post-receive
 fi
 

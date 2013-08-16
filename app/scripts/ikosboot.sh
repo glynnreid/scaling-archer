@@ -14,6 +14,14 @@ then
   touch /vagrant/app/log/initsetup
 fi
 
+if [ ! -f /vagrant/app/log/drushrrsetup ];
+then
+ 
+  #drush dl registry_rebuild
+
+  touch /vagrant/app/log/drushrrsetup
+fi
+
 
 echo 
 echo "ALL DONE!"
