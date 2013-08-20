@@ -1,0 +1,100 @@
+#!/bin/bash
+MYSQLROOTPASS="rootpass"
+
+# Help funtion
+HELP() {
+	echo ""
+	echo "Usage:"
+	echo "-r : SQL File to Restore"
+	echo "-n : Name of Site"
+        echo "-z : Drop DB before restoring"
+	echo ""
+}
+# end help funtion
+
+#If no argument given, show HELP and exit
+if [ $# -lt 1 ] ;then
+HELP
+exit 0
+fi
+
+DROPDB=""
+RESTORE=""
+NAME=""
+DBNAME=""
+
+while getopts r:z:n: option
+do
+  case "${option}"
+  in
+    r) RESTORE=${OPTARG};;
+    z) DROPDB=${OPTARG};;
+    n) NAME=${OPTARG};;
+  esac
+done
+
+# spacer
+echo
+
+
+# Check RESTORE sql file
+if [ ! -z "$RESTORE" ] ;then
+  if [ ! -f "$RESTORE" ]; then
+    echo "ERROR: File does not exist - $RESTORE"
+    exit 6
+  fi
+fi
+
+# Build db name
+DBNAME="db_$NAME"
+
+echo
+echo "Restoring DB for Site"
+
+echo "NAME : $NAME"
+echo "DBNAME : $DBNAME"
+echo "RESTORE : $RESTORE"
+echo "DROP DB : $DROPDB"
+echo 
+echo "WARNING! Proceeding will overwrite existing DB"
+echo
+
+read -p "Are you sure? (y/N) " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo
+  echo "Not installing"
+  echo
+  exit 9
+fi
+
+echo
+echo
+echo "Beginning installation"
+echo
+
+# Drop DB if exists
+if [ ! -z "$RESTORE" -o ! -z "$DROPDB" ] ;then
+  echo "Dropping existing DB"
+  /usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "DROP DATABASE IF EXISTS $DBNAME"
+fi
+
+echo "Create DB"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "CREATE DATABASE IF NOT EXISTS $DBNAME"
+
+# Give permissions for 'drupaluser'
+echo "Grant permissions to drupaluser"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "GRANT ALL ON $DBNAME.* TO 'drupaluser'@'localhost'"
+/usr/bin/mysql -uroot -p$MYSQLROOTPASS -e "flush privileges"
+
+# Restore DB
+if [ ! -z "$RESTORE" ] ;then
+  echo "Restoring file : $RESTORE"
+  /usr/bin/mysql -uroot -p$MYSQLROOTPASS $DBNAME < $RESTORE
+fi
+
+
+echo
+echo "ALL DONE!"
+echo
+

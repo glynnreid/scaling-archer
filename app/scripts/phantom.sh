@@ -1,3 +1,4 @@
 #!/bin/bash
-behat -p phantomjs
+
+behat -p phantomjs $1
 

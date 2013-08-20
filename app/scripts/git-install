@@ -6,6 +6,7 @@ HELP() {
 	echo "Usage:"
 	echo "-n : Name for this installation."
         echo "-d : Destination path"
+        echo "-b : Branch"
 	echo ""
 }
 # end help funtion
@@ -20,6 +21,7 @@ DESTPATH=""
 NAME=""
 REPO=""
 DOCROOT="/var/www"
+BRANCH="master"
 
 while getopts n:d: option
 do
@@ -27,6 +29,7 @@ do
    in
      d) DESTPATH=${OPTARG};;
      n) NAME=${OPTARG};;
+     b) BRANCH${OPTARG};;
    esac
 done
 
@@ -99,7 +102,7 @@ if [ ! -d "$REPO" ]; then
   touch hooks/post-receive
 
   echo "#!/bin/sh" >> hooks/post-receive
-  echo "GIT_WORK_TREE=$DESTPATH git checkout -f" >> hooks/post-receive
+  echo "GIT_WORK_TREE=$DESTPATH git checkout -f $BRANCH" >> hooks/post-receive
   echo "sudo chown -R :www-data $DESTPATH" >> hooks/post-receive
   echo "sudo chmod -R 774 $DESTPATH" >> hooks/post-receive
   sudo chmod +x hooks/post-receive
