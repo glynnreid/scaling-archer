@@ -1,0 +1,21 @@
+# behat.yml
+
+phantomjs:
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://qms.localhost
+            goutte: ~
+            selenium2:
+                wd_host: "http://localhost:8643/wd/hub" 
+
+        Drupal\DrupalExtension\Extension:
+          blackbox: ~
+          drush:
+            alias: qms
+          text:
+            username_field: "E-mail"
+
+    formatter:
+        name:               pretty,html
+        parameters:
+            output_path:    null,jm_behat_report.html

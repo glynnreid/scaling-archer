@@ -245,6 +245,10 @@ fi
 # Restart apache
 sudo service apache2 reload
 
+# add a Drush alias
+sudo drush-update -u "$NAME.localhost" -d "SDESTPATH"
+
+
 # Add exclusion to .gitignore
 # TODO
 

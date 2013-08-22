@@ -91,4 +91,4 @@ and the VM web server is listening on port 8888, so you can access the newly ins
 notes. (ignore this)
 	
 ssh -i "c:\Users\Glynn\.vagrant.d\insecure_private_key" vagrant@192.168.50.4:2222 'ls -All'
-
+ssh -p 2222 -i c:\Users\Glynn\.vagrant.d\insecure_private_key vagrant@localhost ls -All

@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# Help funtion
+HELP() {
+	echo ""
+	echo "Usage:"
+	echo "-d : Path to Drupal root Directory. No trailing slash"
+	echo "-n : Name for this installation."
+	echo ""
+}
+# end help funtion
+
+#If no argument given, show HELP and exit
+if [ $# -lt 1 ] ;then
+HELP
+exit 0
+fi
+
+DOCROOT="/var/www"
+DESTPATH=""
+NAME=""
+
+while getopts d:n: option
+do
+  case "${option}"
+  in
+    d) DESTPATH=${OPTARG};;
+    n) NAME=${OPTARG};;
+  esac
+done
+
+# spacer
+echo
+
+# Check name
+if [ -z "$NAME" ] ;then
+  echo "ERROR: No Name. Please use -n to specify the name"
+  exit 1
+fi
+
+
+if [ -z "$DESTPATH" ] ;then
+  DESTPATH="$DOCROOT/$NAME"
+fi
+
+
+echo
+echo "Updating Drush alias"
+
+echo "NAME : $NAME"
+echo "DESTPATH : $DESTPATH"
+echo
+
+read -p "Are you sure? (y/N) " -n 1 -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo
+  echo "Not updating"
+  echo
+  exit 9
+fi
+
+echo
+echo
+echo "Updating"
+echo
+
+
+# Check drush alias directory exists
+if [ ! -d "~/.drush" ]; then
+  echo "Making .drush"
+  mkdir ~/.drush
+fi
+
+
+# Check alias file exists
+if [ ! -f ~/.drush/aliases.drushrc.php ]; then
+  touch ~/.drush/aliases.drushrc.php
+  echo "<?php \n" > ~/.drush/aliases.drushrc.php
+  echo "?> \n" > ~/.drush/aliases.drushrc.php
+fi
+
+echo "Making settings file"
+cat "/vagrant/app/scripts/templates/settings.template" > "temp.settings"
+sed -i "s|BASEURL|http://$NAME.localhost:8888|g" "temp.settings" 
+sed -i "s|DBNAME|$DBNAME|g" "temp.settings" 
+mv "temp.settings" $DESTINATION_SETTINGS
+
+
+
+if ! grep -q "$NAME.localhost" ~/.drush/aliases.drushrc.php; then
+  head -n -1 ~/.drush/aliases.drushrc.php > temp.txt
+
+fi
+
+# add a Drush alias
+#sudo drush-update -u "$NAME.localhost" -d "SDESTPATH"
+
+
+# TODO
+
+echo
+echo "ALL DONE!"
+echo
+

@@ -1,0 +1,187 @@
+Array
+(
+    [id] => 17801
+    [affectsVersions] => Array
+        (
+        )
+
+    [assignee] => glynn.reid
+    [attachmentNames] => Array
+        (
+            [0] => qms-1.feature
+        )
+
+    [components] => Array
+        (
+        )
+
+    [created] => 2013-07-30T10:31:42.000Z
+    [customFieldValues] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [customfieldId] => customfield_11300
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => {code:none}
+Feature: As a user of the site I want a site-wide keyword search that searches all site content so that a relevant result set is returned
+
+  @api
+  Scenario: Do a successful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "herd"
+    And I press "edit-submit"
+    Then I should see "Search results"
+
+
+  @api
+  Scenario: Do an unsuccesful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "xxxxxxxx"
+    And I press "edit-submit"
+    Then I should see "Check if your spelling is correct"
+{code}
+                        )
+
+                )
+
+            [1] => stdClass Object
+                (
+                    [customfieldId] => customfield_10000
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 4122
+                        )
+
+                )
+
+            [2] => stdClass Object
+                (
+                    [customfieldId] => customfield_10209
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => {code:none}
+Feature: As a user of the site I want a site-wide keyword search that searches all site content so that a relevant result set is returned
+
+  @api
+  Scenario: Do a successful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "herd"
+    And I press "edit-submit"
+    Then I should see "Search results"
+
+
+  @api
+  Scenario: Do an unsuccesful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "xxxxxxxx"
+    And I press "edit-submit"
+    Then I should see "Check if your spelling is correct"
+{code}
+                        )
+
+                )
+
+            [3] => stdClass Object
+                (
+                    [customfieldId] => customfield_10400
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 29
+                        )
+
+                )
+
+            [4] => stdClass Object
+                (
+                    [customfieldId] => customfield_10600
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 14
+                        )
+
+                )
+
+            [5] => stdClass Object
+                (
+                    [customfieldId] => customfield_10105
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 5
+                        )
+
+                )
+
+            [6] => stdClass Object
+                (
+                    [customfieldId] => customfield_10901
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 
+                        )
+
+                )
+
+            [7] => stdClass Object
+                (
+                    [customfieldId] => customfield_10101
+                    [key] => 
+                    [values] => Array
+                        (
+                            [0] => 22/Aug/13
+                        )
+
+                )
+
+        )
+
+    [description] => {code:none}
+Feature: As a user of the site I want a site-wide keyword search that searches all site content so that a relevant result set is returned
+
+  @api
+  Scenario: Do a successful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "herd"
+    And I press "edit-submit"
+    Then I should see "Search results"
+
+
+  @api
+  Scenario: Do an unsuccesful search
+    Given I am logged in as a user with the "administrator" role
+    And I am on the homepage
+    And I fill in "search_block_form" with "xxxxxxxx"
+    And I press "edit-submit"
+    Then I should see "Check if your spelling is correct"
+{code}
+
+    [duedate] => 
+    [environment] => 
+    [fixVersions] => Array
+        (
+        )
+
+    [key] => QMS-1
+    [priority] => 4
+    [project] => QMS
+    [reporter] => duncan.davidson@i-kos.com
+    [resolution] => 
+    [status] => 10010
+    [summary] => QMS Feature: As a user of the site I want a site-wide keyword search that searches all site content so that a relevant result set is returned
+    [type] => 6
+    [updated] => 2013-08-22T11:45:35.000Z
+    [votes] => 0
+)
+Body : 

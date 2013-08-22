@@ -1,0 +1,1239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns ="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <title>Behat Test Suite</title>
+    <style type="text/css">
+        body {
+            margin:0px;
+            padding:0px;
+            position:relative;
+            padding-top:75px;
+        }
+        #behat {
+            float:left;
+            font-family: Georgia, serif;
+            font-size:18px;
+            line-height:26px;
+            width:100%;
+        }
+        #behat .statistics {
+            float:left;
+            width:100%;
+            margin-bottom:15px;
+        }
+        #behat .statistics p {
+            text-align:right;
+            padding:5px 15px;
+            margin:0px;
+            border-right:10px solid #000;
+        }
+        #behat .statistics.failed p {
+            border-color:#C20000;
+        }
+        #behat .statistics.passed p {
+            border-color:#3D7700;
+        }
+        #behat .feature {
+            margin:15px;
+        }
+        #behat h2, #behat h3, #behat h4 {
+            margin:0px 0px 5px 0px;
+            padding:0px;
+            font-family:Georgia;
+        }
+        #behat h2 .title, #behat h3 .title, #behat h4 .title {
+            font-weight:normal;
+        }
+        #behat .path {
+            font-size:10px;
+            font-weight:normal;
+            font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace !important;
+            color:#999;
+            padding:0px 5px;
+            float:right;
+        }
+        #behat .path a:link,
+        #behat .path a:visited {
+            color:#999;
+        }
+        #behat .path a:hover,
+        #behat .path a:active {
+            background-color:#000;
+            color:#fff;
+        }
+        #behat h3 .path {
+            margin-right:4%;
+        }
+        #behat ul.tags {
+            font-size:14px;
+            font-weight:bold;
+            color:#246AC1;
+            list-style:none;
+            margin:0px;
+            padding:0px;
+        }
+        #behat ul.tags li {
+            display:inline;
+        }
+        #behat ul.tags li:after {
+            content:' ';
+        }
+        #behat ul.tags li:last-child:after {
+            content:'';
+        }
+        #behat .feature > p {
+            margin-top:0px;
+            margin-left:20px;
+        }
+        #behat .scenario {
+            margin-left:20px;
+            margin-bottom:20px;
+        }
+        #behat .scenario > ol,
+        #behat .scenario .examples > ol {
+            margin:0px;
+            list-style:none;
+            padding:0px;
+        }
+        #behat .scenario > ol {
+            margin-left:20px;
+        }
+        #behat .scenario > ol:after,
+        #behat .scenario .examples > ol:after {
+            content:'';
+            display:block;
+            clear:both;
+        }
+        #behat .scenario > ol li,
+        #behat .scenario .examples > ol li {
+            float:left;
+            width:95%;
+            padding-left:5px;
+            border-left:5px solid;
+            margin-bottom:4px;
+        }
+        #behat .scenario > ol li .argument,
+        #behat .scenario .examples > ol li .argument {
+            margin:10px 20px;
+            font-size:16px;
+            overflow:hidden;
+        }
+        #behat .scenario > ol li table.argument,
+        #behat .scenario .examples > ol li table.argument {
+            border:1px solid #d2d2d2;
+        }
+        #behat .scenario > ol li table.argument thead td,
+        #behat .scenario .examples > ol li table.argument thead td {
+            font-weight: bold;
+        }
+        #behat .scenario > ol li table.argument td,
+        #behat .scenario .examples > ol li table.argument td {
+            padding:5px 10px;
+            background:#f3f3f3;
+        }
+        #behat .scenario > ol li .keyword,
+        #behat .scenario .examples > ol li .keyword {
+            font-weight:bold;
+        }
+        #behat .scenario > ol li .path,
+        #behat .scenario .examples > ol li .path {
+            float:right;
+        }
+        #behat .scenario .examples {
+            margin-top:20px;
+            margin-left:40px;
+        }
+        #behat .scenario .examples h4 span {
+            font-weight:normal;
+            background:#f3f3f3;
+            color:#999;
+            padding:0 5px;
+            margin-left:10px;
+        }
+        #behat .scenario .examples table {
+            margin-left:20px;
+        }
+        #behat .scenario .examples table thead td {
+            font-weight:bold;
+            text-align:center;
+        }
+        #behat .scenario .examples table td {
+            padding:2px 10px;
+            font-size:16px;
+        }
+        #behat .scenario .examples table .failed.exception td {
+            border-left:5px solid #000;
+            border-color:#C20000 !important;
+            padding-left:0px;
+        }
+        pre {
+            font-family:monospace;
+        }
+        .snippet {
+            font-size:14px;
+            color:#000;
+            margin-left:20px;
+        }
+        .backtrace {
+            font-size:12px;
+            line-height:18px;
+            color:#000;
+            overflow:hidden;
+            margin-left:20px;
+            padding:15px;
+            border-left:2px solid #C20000;
+            background: #fff;
+            margin-right:15px;
+        }
+        #behat .passed {
+            background:#DBFFB4;
+            border-color:#65C400 !important;
+            color:#3D7700;
+        }
+        #behat .failed {
+            background:#FFFBD3;
+            border-color:#C20000 !important;
+            color:#C20000;
+        }
+        #behat .undefined, #behat .pending {
+            border-color:#FAF834 !important;
+            background:#FCFB98;
+            color:#000;
+        }
+        #behat .skipped {
+            background:lightCyan;
+            border-color:cyan !important;
+            color:#000;
+        }
+        #behat .summary {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 18px;
+        }
+        #behat .summary .counters {
+            padding: 10px;
+            border-top: 0px;
+            border-bottom: 0px;
+            border-right: 0px;
+            border-left: 5px;
+            border-style: solid;
+            height: 52px;
+            overflow: hidden;
+        }
+        #behat .summary .switchers {
+            position: absolute;
+            right: 15px;
+            top: 25px;
+        }
+        #behat .summary .switcher {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #behat .summary .switchers a {
+            margin-left: 10px;
+            color: #000;
+        }
+        #behat .summary .switchers a:hover {
+            text-decoration:none;
+        }
+        #behat .summary p {
+            margin:0px;
+        }
+        #behat .jq-toggle > .scenario,
+        #behat .jq-toggle > ol,
+        #behat .jq-toggle > .examples {
+            display:none;
+        }
+        #behat .jq-toggle-opened > .scenario,
+        #behat .jq-toggle-opened > ol,
+        #behat .jq-toggle-opened > .examples {
+            display:block;
+        }
+        #behat .jq-toggle > h2,
+        #behat .jq-toggle > h3 {
+            cursor:pointer;
+        }
+        #behat .jq-toggle > h2:after,
+        #behat .jq-toggle > h3:after {
+            content:' |+';
+            font-weight:bold;
+        }
+        #behat .jq-toggle-opened > h2:after,
+        #behat .jq-toggle-opened > h3:after {
+            content:' |-';
+            font-weight:bold;
+        }
+    </style>
+
+    <style type="text/css" media="print">
+        body {
+            padding:0px;
+        }
+
+        #behat {
+            font-size:11px;
+        }
+
+        #behat .jq-toggle > .scenario,
+        #behat .jq-toggle > .scenario .examples,
+        #behat .jq-toggle > ol {
+            display:block;
+        }
+
+        #behat .summary {
+            position:relative;
+        }
+
+        #behat .summary .counters {
+            border:none;
+        }
+
+        #behat .summary .switchers {
+            display:none;
+        }
+
+        #behat .step .path {
+            display:none;
+        }
+
+        #behat .jq-toggle > h2:after,
+        #behat .jq-toggle > h3:after {
+            content:'';
+            font-weight:bold;
+        }
+
+        #behat .jq-toggle-opened > h2:after,
+        #behat .jq-toggle-opened > h3:after {
+            content:'';
+            font-weight:bold;
+        }
+
+        #behat .scenario > ol li,
+        #behat .scenario .examples > ol li {
+            border-left:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="behat">
+        
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 117</span>
+</h2>
+<p>
+As a site owner I want to have a taxonomy called event type so that I can categorise the event content type<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "event type" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-117#:6</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Event Type</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Event type" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-117#:12</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy/event_type</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Conference</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Workshop</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Meeting</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Monitor farm</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 107</span>
+</h2>
+<p>
+As a site owner I want a taxonomy called Cut Area/Animal part so that the cutting guide can be categorised<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Cutting Guide" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-107#:6</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Cutting Guide</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Cutting Guide" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-107#:12</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy/cutting_guide</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Beef Forequarter</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Forerib</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Brisket</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Shin,neck and clod</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Beef Hindquarter</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Thin Flank</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Fillet sirloin</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Top Bit</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Lamb</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Leg and Chump</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Saddle</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Shoulder</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Pork (Major primals)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Leg and Chump</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Middle</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Fore-end</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Pork (Individual primals)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Leg and Chump</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Middle</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Fore-end</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 106</span>
+</h2>
+<p>
+As a site owner I want a content type called cutting guide so that it can be displayed to users of the site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "Cutting Guide" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-106#:6</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Cutting Guide (Machine name: cutting_guide)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 105</span>
+</h2>
+<p>
+As a site owner I want a taxonomy of glossary of terms associated with the cutting guide so that they can be displayed in the cutting guide section<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Glossary" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-105#:6</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Glossary</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Glossary" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-105#:12</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy/glossary</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Ageing</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Atich-bone</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Backfat</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Bruising</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Chine</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Chop</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Chump</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Cod fat</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Cold shortening</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Connective tissue</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Eye muscle</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Gigot</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Gristle or cartilage</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Intermuscular fat</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Lairage</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Lean</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">LMC</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Loin</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Primal jointing</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Probe</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Rack</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Rind</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Saddle</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Scrag</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Seam butchery</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Shank</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Tendon</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 94</span>
+</h2>
+<p>
+A a user of the site when I use my one-time only link I want to login automatically so that I can change my password<br />
+</p>
+
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">todo</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-94#:4</span>
+</h3>
+<ol>
+<li class="undefined">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">todo</span>
+</div>
+<div class="snippet"><pre>  /**
+   * @Given /^todo$/
+   */
+  public function todo() {
+    throw new PendingException();
+  }</pre></div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 93</span>
+</h2>
+<p>
+As a site admin when I approve users I want a one-time only link to be sent out to the registration email address so that the users email address is confirmed<br />
+</p>
+
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">todo</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-93#:4</span>
+</h3>
+<ol>
+<li class="undefined">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">todo</span>
+</div>
+<div class="snippet"><pre>  /**
+   * @Given /^todo$/
+   */
+  public function todo() {
+    throw new PendingException();
+  }</pre></div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 92</span>
+</h2>
+<p>
+As a site owner I want CAPTCHA on the registration form so that spam registrations are reduced<br />
+</p>
+
+<div class="scenario">
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Check for CAPTCHA Input</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-92#:4</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am an anonymous user</span>
+<span class="path">FeatureContext::assertAnonymousUser()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/user/register</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I fill in "<strong class="passed_param">mollom[captcha]</strong>" with "<strong class="passed_param">xxxxxx</strong>"</span>
+<span class="path">FeatureContext::fillField()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 50</span>
+</h2>
+<p>
+As a site owner I want a taxonomy called advice type so that the advice content type can be categorised<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Advice type" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-50#:5</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="failed_param">Advice Types</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+<pre class="backtrace">The text &quot;Advice Types&quot; was not found anywhere in the text of the current page.</pre>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "Advice type" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-50#:11</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="failed_param">/admin/structure/taxonomy/advice_types/</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+<pre class="backtrace">Current response status code is 404, but 200 expected.</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">Added Value Project</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Dressing Specs</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Beef EQ</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Lamb EQ</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Tagging</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">BIG</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 49</span>
+</h2>
+<p>
+As a site owner I want a content type called advice so that advice information can be displayed on my site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "advice" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-49#:5</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="failed_param">Advice (Machine name: advice)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+<pre class="backtrace">The text &quot;Advice (Machine name: advice)&quot; was not found anywhere in the text of the current page.</pre>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 48</span>
+</h2>
+<p>
+As a site owner I want a taxonomy called campaign type so that the campaign content type can be categorised<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "campaign type" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-48#:5</span>
+</h3>
+<ol>
