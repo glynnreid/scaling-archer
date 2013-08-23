@@ -1237,3 +1237,526 @@ As a site owner I want a taxonomy called campaign type so that the campaign cont
 <span class="path">https://ikosltd.atlassian.net/browse/QMS-48#:5</span>
 </h3>
 <ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Campaign types</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "campaign type" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-48#:11</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy/campaign_types/</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="passed_param">Scotch Beef</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Scotch Lamb</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="passed_param">Specially Selected Pork</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="failed_param">Behind the Label</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+<pre class="backtrace">The text &quot;Behind the Label&quot; was not found anywhere in the text of the current page.</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Butchers</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Restaurants</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">Exports</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 47</span>
+</h2>
+<p>
+As a site owner I want a content type called campaign so that campaign information can be displayed on my site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "Campaign" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-47#:5</span>
+</h3>
+<ol>
+<li class="failed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="failed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+<pre class="backtrace">[curl] 28: Operation timed out after 30301 milliseconds with 12780 out of -1 bytes received [url] http://qms.localhost/</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="skipped_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">Campaign (Machine name: campaign)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 43</span>
+</h2>
+<p>
+As a site owner I want a taxonomy called healthy eating so that I can categorise the healthy eating content type<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "healthy eating" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-43#:5</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="passed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="passed_param">/admin/structure/taxonomy</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="failed_param">healthy eating</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+<pre class="backtrace">The text &quot;healthy eating&quot; was not found anywhere in the text of the current page.</pre>
+</li>
+</ol>
+</div>
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "healthy eating" has terms</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-43#:11</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="failed_param">/admin/structure/taxonomy/healthy_eating/</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+<pre class="backtrace">[curl] 28: Operation timed out after 30944 milliseconds with 56023 out of -1 bytes received [url] http://qms.localhost/admin/structure/taxonomy/healthy_eating/</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">why red meat</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">keep it safe</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">resources</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">food farming and welfare</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I should see "<strong class="skipped_param">school extras</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 42</span>
+</h2>
+<p>
+As a site owner I want a content type healthy eating so that healthy eating content can be displayed on my site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "Healthy eating" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-42#:5</span>
+</h3>
+<ol>
+<li class="passed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="passed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+</li>
+<li class="failed">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="failed_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+<pre class="backtrace">[curl] 28: Operation timed out after 30461 milliseconds with 59632 out of -1 bytes received [url] http://qms.localhost/admin/structure/types</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">Healthy eating (Machine name: healthy_eating)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 40</span>
+</h2>
+<p>
+As a site owner I want a content type Event so that I can display events on my site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "Event" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-40#:5</span>
+</h3>
+<ol>
+<li class="failed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="failed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+<pre class="backtrace">[curl] 28: Operation timed out after 30110 milliseconds with 12780 out of -1 bytes received [url] http://qms.localhost/</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="skipped_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">Event (Machine name: event)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 38</span>
+</h2>
+<p>
+As a site owner I want to have a content type news so that news can be displayed on the site<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Content type "News" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-38#:5</span>
+</h3>
+<ol>
+<li class="failed">
+<div class="step">
+<span class="keyword">Given </span>
+<span class="text">I am logged in as a user with the "<strong class="failed_param">administrator</strong>" role</span>
+<span class="path">FeatureContext::assertAuthenticatedByRole()</span>
+</div>
+<pre class="backtrace">Exception thrown by (//html/.//input[./@type = 'submit' or ./@type = 'image' or ./@type = 'button'][(((./@id = 'Log in' or ./@name = 'Log in') or contains(./@value, 'Log in')) or contains(./@title, 'Log in'))] | .//input[./@type = 'image'][contains(./@alt, 'Log in')] | .//button[((((./@id = 'Log in' or ./@name = 'Log in') or contains(./@value, 'Log in')) or contains(normalize-space(string(.)), 'Log in')) or contains(./@title, 'Log in'))] | .//input[./@type = 'image'][contains(./@alt, 'Log in')] | .//*[./@role = 'button'][(((./@id = 'Log in' or ./@name = 'Log in') or contains(./@value, 'Log in')) or contains(./@title, 'Log in') or contains(normalize-space(string(.)), 'Log in'))])[1]
+[curl] 28: Operation timed out after 30163 milliseconds with 63154 out of -1 bytes received [url] http://qms.localhost/user/41</pre>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">And </span>
+<span class="text">I visit "<strong class="skipped_param">/admin/structure/types</strong>"</span>
+<span class="path">FeatureContext::assertVisit()</span>
+</div>
+</li>
+<li class="skipped">
+<div class="step">
+<span class="keyword">Then </span>
+<span class="text">I should see "<strong class="skipped_param">News (Machine name: news)</strong>"</span>
+<span class="path">FeatureContext::assertPageContainsText()</span>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="feature">
+<ul class="tags">
+<li>@assignee:paul.martin</li>
+</ul>
+<h2>
+<span class="keyword">Feature: </span>
+<span class="title">QMS 38</span>
+</h2>
+<p>
+As a site owner I want to have a taxonomy called assurance type so that I can categorise the assurance programmes content type<br />
+</p>
+
+<div class="scenario">
+<ul class="tags">
+<li>@api</li>
+</ul>
+<h3>
+<span class="keyword">Scenario: </span>
+<span class="title">Vocab "assurance type" exists</span>
+<span class="path">https://ikosltd.atlassian.net/browse/QMS-37#:5</span>
+</h3>
+<ol>
+<div class="summary failed">
+<div class="counters">
+<p class="scenarios">
+21 scenarios (<strong class="passed">9 passed</strong>, <strong class="undefined">2 undefined</strong>, <strong class="failed">10 failed</strong>)
+</p>
+<p class="steps">
+122 steps (<strong class="passed">89 passed</strong>, <strong class="skipped">21 skipped</strong>, <strong class="undefined">2 undefined</strong>, <strong class="failed">10 failed</strong>)
+</p>
+<p class="time">
+13m36.885s
+</p>
+</div>
+<div class="switchers">
+    <a href="javascript:void(0)" id="behat_show_all">[+] all</a>
+    <a href="javascript:void(0)" id="behat_hide_all">[-] all</a>
+</div>
+</div>
+
+    </div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#behat .feature h2').click(function(){
+                $(this).parent().toggleClass('jq-toggle-opened');
+            }).parent().addClass('jq-toggle');
+
+            $('#behat .scenario h3').click(function(){
+                $(this).parent().toggleClass('jq-toggle-opened');
+            }).parent().addClass('jq-toggle');
+
+            $('#behat_show_all').click(function(){
+                $('#behat .feature').addClass('jq-toggle-opened');
+                $('#behat .scenario').addClass('jq-toggle-opened');
+            });
+
+            $('#behat_hide_all').click(function(){
+                $('#behat .feature').removeClass('jq-toggle-opened');
+                $('#behat .scenario').removeClass('jq-toggle-opened');
+            });
+
+            $('#behat .summary .counters .scenarios .passed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:not(:has(.failed, .pending))');
+                    var $feature  = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .steps .passed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.passed)');
+                    var $feature  = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .failed')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.failed)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .skipped')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.skipped)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+
+            $('#behat .summary .counters .pending')
+                .addClass('switcher')
+                .click(function(){
+                    var $scenario = $('.feature .scenario:has(.pending)');
+                    var $feature = $scenario.parent();
+
+                    $('#behat_hide_all').click();
+
+                    $scenario.addClass('jq-toggle-opened');
+                    $feature.addClass('jq-toggle-opened');
+                });
+        });
+    </script>
+</body>
+</html>
