@@ -1,0 +1,4 @@
+Host vagrant
+HostName localhost
+Port 2222
+User vagrant

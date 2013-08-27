@@ -69,7 +69,7 @@ fi
 
 
 if [ -z "$DESTPATH" ] ;then
-  DESTPATH="$DOCROOT/$NAME"
+  DESTPATH="$CODEPATH"
 fi
 
 # Check destination
@@ -109,8 +109,8 @@ echo
 echo "Installing new site"
 
 echo "NAME : $NAME"
-echo "CODEPATH : $CODEPATH"
-echo "DESTPATH : $DESTPATH"
+echo "SITEPATH : $CODEPATH"
+echo "DOCROOT : $DESTPATH"
 echo "SUBDOMAIN : $SUBDOMAIN"
 echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
 echo "DESTINATION : $DESTINATION"
