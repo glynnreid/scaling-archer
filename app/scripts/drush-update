@@ -80,11 +80,8 @@ if [ ! -f ~/.drush/aliases.drushrc.php ]; then
   echo "?> \n" > ~/.drush/aliases.drushrc.php
 fi
 
-echo "Making settings file"
-cat "/vagrant/app/scripts/templates/settings.template" > "temp.settings"
-sed -i "s|BASEURL|http://$NAME.localhost:8888|g" "temp.settings" 
+echo "Updating alias file"
 sed -i "s|DBNAME|$DBNAME|g" "temp.settings" 
-mv "temp.settings" $DESTINATION_SETTINGS
 
 
 
