@@ -9,7 +9,7 @@ then
   fi
 
   # make sure the scripts have the correct permissions to execute
-  chmod a+x /vagrant/app/scripts/*.sh
+  chmod a+x /vagrant/app/scripts/*
 
   touch /vagrant/app/log/initsetup
 fi

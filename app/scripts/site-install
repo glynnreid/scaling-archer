@@ -158,6 +158,7 @@ if [ ! -z "$DESTINATION" ]; then
   if [ ! -d "$DESTINATION" ]; then
     echo "Making $DESTINATION"
     mkdir $DESTINATION
+    chown vagrant:www-data $DESTINATION
   else
     echo "$DESTINATION already exists"
   fi
