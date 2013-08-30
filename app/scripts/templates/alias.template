@@ -1,0 +1,4 @@
+ $aliases['NAME'] = array(
+   'root' => 'ROOT',
+   'uri' => 'DOMAIN',
+ );

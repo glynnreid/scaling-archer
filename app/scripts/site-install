@@ -116,7 +116,7 @@ echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
 echo "DESTINATION : $DESTINATION"
 echo "DBNAME : $DBNAME"
 echo "RESTORE : $RESTORE"
-echo 
+echo
 echo "WARNING! Proceeding will overwrite any existing settings and DB"
 echo
 
@@ -158,7 +158,7 @@ if [ ! -z "$DESTINATION" ]; then
   if [ ! -d "$DESTINATION" ]; then
     echo "Making $DESTINATION"
     mkdir $DESTINATION
-    chown vagrant:www-data $DESTINATION
+    sudo chown vagrant:www-data $DESTINATION
   else
     echo "$DESTINATION already exists"
   fi
@@ -220,8 +220,8 @@ fi
 
 echo "Making settings file"
 cat "/vagrant/app/scripts/templates/settings.template" > "temp.settings"
-sed -i "s|BASEURL|http://$NAME.localhost:8888|g" "temp.settings" 
-sed -i "s|DBNAME|$DBNAME|g" "temp.settings" 
+sed -i "s|BASEURL|http://$NAME.localhost:8888|g" "temp.settings"
+sed -i "s|DBNAME|$DBNAME|g" "temp.settings"
 mv "temp.settings" $DESTINATION_SETTINGS
 
 
@@ -233,21 +233,21 @@ if [ -f $VHOST ]; then
 fi
 
 cat "/vagrant/app/scripts/templates/vhost.template" > "temp.vhost"
-sed -i "s|ServerName localhost|ServerName $NAME.localhost|g" "temp.vhost" 
-sed -i "s|/var/www|$DESTPATH|g" "temp.vhost" 
+sed -i "s|ServerName localhost|ServerName $NAME.localhost|g" "temp.vhost"
+sed -i "s|/var/www|$DESTPATH|g" "temp.vhost"
 sudo mv "temp.vhost" $VHOST
 sudo a2ensite "$NAME.localhost"
 # Create subdomain entry in hosts
 
 if ! grep -q "$NAME.localhost" /etc/hosts; then
-  sudo ./uh.sh add "$NAME.localhost"
+  sudo update-hosts add "$NAME.localhost"
 fi
 
 # Restart apache
 sudo service apache2 reload
 
 # add a Drush alias
-sudo drush-update -n "$NAME.localhost" -d "SDESTPATH"
+sudo drush-update -n "$NAME" -d "$DESTPATH"
 
 
 # Add exclusion to .gitignore

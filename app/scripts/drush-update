@@ -16,9 +16,12 @@ HELP
 exit 0
 fi
 
+ALIASFILE="/home/vagrant/.drush/aliases.drushrc.php"
+TEMPLATE="/vagrant/app/scripts/templates/alias.template"
 DOCROOT="/var/www"
 DESTPATH=""
 NAME=""
+DOMAIN=""
 
 while getopts d:n: option
 do
@@ -37,7 +40,7 @@ if [ -z "$NAME" ] ;then
   echo "ERROR: No Name. Please use -n to specify the name"
   exit 1
 fi
-
+DOMAIN=$NAME.localhost
 
 if [ -z "$DESTPATH" ] ;then
   DESTPATH="$DOCROOT/$NAME"
@@ -46,8 +49,8 @@ fi
 
 echo
 echo "Updating Drush alias"
-
 echo "NAME : $NAME"
+echo "DOMAIN : $DOMAIN"
 echo "DESTPATH : $DESTPATH"
 echo
 
@@ -67,36 +70,40 @@ echo
 
 
 # Check drush alias directory exists
-if [ ! -d "~/.drush" ]; then
+if [ ! -d "/home/vagrant/.drush" ]; then
   echo "Making .drush"
-  mkdir ~/.drush
+  mkdir /home/vagrant/.drush
 fi
 
 
 # Check alias file exists
-if [ ! -f ~/.drush/aliases.drushrc.php ]; then
-  touch ~/.drush/aliases.drushrc.php
-  echo "<?php \n" > ~/.drush/aliases.drushrc.php
-  echo "?> \n" > ~/.drush/aliases.drushrc.php
+if [ ! -f $ALIASFILE ]; then
+  touch $ALIASFILE
+  echo "<?php \n" > $ALIASFILE
+  echo "?> \n" > $ALIASFILE
 fi
 
 echo "Updating alias file"
-sed -i "s|DBNAME|$DBNAME|g" "temp.settings" 
+
+if ! grep -q "$NAME.localhost" $ALIASFILE; then
+  head -n -1 $ALIASFILE > temp.txt
 
 
+  cat "$TEMPLATE" >> temp.txt
+  echo "" >> temp.txt
 
-if ! grep -q "$NAME.localhost" ~/.drush/aliases.drushrc.php; then
-  head -n -1 ~/.drush/aliases.drushrc.php > temp.txt
+  sed -i "s|NAME|$NAME|g" temp.txt
+  sed -i "s|ROOT|$DESTPATH|g" temp.txt
+  sed -i "s|DOMAIN|$DOMAIN|g" temp.txt
 
+  echo "?>" >> temp.txt
+
+  mv $ALIASFILE $ALIASFILE.bak
+  mv temp.txt $ALIASFILE
+
+else
+  echo "SKIPPING - domain already exists in alias file, pllease update manually"
 fi
 
-# add a Drush alias
-#sudo drush-update -u "$NAME.localhost" -d "SDESTPATH"
 
-
-# TODO
-
-echo
-echo "ALL DONE!"
-echo
 

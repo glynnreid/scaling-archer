@@ -1,0 +1,3 @@
+#!/bin/bash
+
+for i in /var/log/*; do cat /dev/null > $i; done

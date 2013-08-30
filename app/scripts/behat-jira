@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ ! -d cache ]; then
+  mkdir cache
+fi
+
+echo "Clearing CACHE"
+rm -Rf cache/*
+
+echo "Running tests"
+sudo behat https://ikosltd.atlassian.net/
+
+
