@@ -24,10 +24,11 @@ B. Install Site
 	. Type _vagrant ssh_
 4. <vm> Create a Git Repository in the VM to receive the code
 	. git-install -n <project> { -b <git branch> }
-5. <host> Add the Url received in 4 as a new Git Remote to your <project>
+5. <host> Add the Url received in 4 as a new Git Remote to your <project> (Use vagrant private key for authentication, probably  ~/.vagrant.d/insecure_private_key)
 6. <host> Git Push code to new remote
 7. <vm> site-install -n <project> { -r <path to sql file to restore> } { -d <path to drupal docroot> } { -s <subdomain> } { -z <drop DB> }
-8. <host> Browser navigate to <project>.localhost:8888
+8. Edit your hosts file (/etc/hosts) to add the domain, ie. 127.0.0.1 <project>.localhost (you will need admin permissions)
+9. <host> Browser navigate to <project>.localhost:8888
 
 
 C. Restore site
