@@ -20,6 +20,7 @@ Vagrant.configure("2") do |config|
 	config.vm.network :forwarded_port, host: 8888, guest: 80
 	config.vm.network :forwarded_port, host: 4444, guest: 4444
 	config.vm.network :forwarded_port, host: 33063, guest: 3306
+	config.vm.network :forwarded_port, host: 9000, guest: 9000
 	
 	config.vm.network :private_network, ip: "192.168.50.4"
 
