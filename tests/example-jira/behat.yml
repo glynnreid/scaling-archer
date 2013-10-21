@@ -18,12 +18,9 @@ default:
       user: glynn.reid
       password: delta221
       jql: project="Quality Meat Scotland" AND status = "In Review" AND "Feature" is not EMPTY
-      status_on_pass: "Passed BDD Tests"
-      comment_on_pass: false
-      comment_on_fail: false
-      reopen_on_fail: false
-      feature_field: customfield_11301
-      cache_directory: cache
+      service_params:
+        action_on_pass: "Passed BDD Tests"
+        feature_field: customfield_11301
 
   formatter:
     name:               pretty,html

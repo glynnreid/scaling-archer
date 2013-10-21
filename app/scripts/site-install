@@ -38,8 +38,7 @@ while getopts c:d:r:z:n:s: option
 do
   case "${option}"
   in
-    c) CODEPATH=${OPTARG};;
-    d) DESTPATH=${OPTARG};;
+    d) CODEPATH=${OPTARG};;
     r) RESTORE=${OPTARG};;
     z) DROPDB=${OPTARG};;
     n) NAME=${OPTARG};;
@@ -68,12 +67,8 @@ if [ ! -d "$CODEPATH" ]; then
 fi
 
 
-if [ -z "$DESTPATH" ] ;then
-  DESTPATH="$CODEPATH"
-fi
-
 # Check destination
-DESTINATION="$DESTPATH/sites/$NAME.localhost"
+DESTINATION="$CODEPATH/sites/$NAME.localhost"
 DESTINATION_SETTINGS="$DESTINATION/settings.php"
 if [ -d "$DESTINATION" ]; then
   echo "WARNING: DESTINATION already exists - $DESTINATION"
@@ -85,7 +80,7 @@ if [ -z "$SUBDOMAIN" ] ;then
 fi
 
 # Build path to subdomain
-SUBDOMAIN_PATH="$DESTPATH/sites/$SUBDOMAIN"
+SUBDOMAIN_PATH="$CODEPATH/sites/$SUBDOMAIN"
 
 # Build path to settings file
 SUBDOMAIN_SETTINGS="$CODEPATH/sites/$SUBDOMAIN/settings.php"
@@ -109,8 +104,7 @@ echo
 echo "Installing new site"
 
 echo "NAME : $NAME"
-echo "SITEPATH : $CODEPATH"
-echo "DOCROOT : $DESTPATH"
+echo "DOCROOT : $CODEPATH"
 echo "SUBDOMAIN : $SUBDOMAIN"
 echo "SUBDOMAIN_PATH : $SUBDOMAIN_PATH"
 echo "DESTINATION : $DESTINATION"

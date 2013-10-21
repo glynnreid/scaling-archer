@@ -3,7 +3,7 @@ Steps to Install QMS in VM
 A. Install VM
 
 1. Make a new folder <VM> and Git Clone this project : git@github.com:ikos/scaling-archer.git
-2. Install Vagrant if you haven't already done so.	http://downloads.vagrantup.com/tags/v1.2.2
+2. Install Vagrant if you haven't already done so.	http://downloads.vagrantup.com (latest tag)
 3. Install VirtualBox if you haven't already done so.	https://www.virtualbox.org/wiki/Downloads
 4. Open a console/Git bash at your <VM> folder.
 5. Type _vagrant up<enter>_
