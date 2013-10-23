@@ -1,0 +1,26 @@
+Commands to setup and running  virtual box, vagrant and behat  with phantom
+
+cd scaling-archer
+
+vagrant up
+(Brings  machine 'default' up with 'virtualbox' provider)
+
+vagrant ssh
+(Brings Vagrant-built virtual machin2e)
+
+cd /vagrant/tests/example 
+(Brings up examples)
+
+cd /vagrant/tests/example-phantomjs
+
+/vagrant$ ls
+
+/vagrant/app$ ls
+
+ cd scripts/
+
+ls -l
+
+chmod 777 *14.
+
+./phantom-start 
