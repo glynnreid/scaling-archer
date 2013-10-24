@@ -16,3 +16,11 @@ However, you can use the -p parameter to select update mode:
   sudo behat -p update https://ikosltd.atlassian.net/  
 
 
+
+NOTE : Please ensure that you have the latest version of the JiraExtension module.
+To do this:
+
+  cd ~/JiraExtension
+  git pull
+
+
