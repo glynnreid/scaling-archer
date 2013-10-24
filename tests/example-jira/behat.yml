@@ -17,9 +17,8 @@ default:
       host: https://ikosltd.atlassian.net/
       user: glynn.reid
       password: delta221
-      jql: project="Quality Meat Scotland" AND status = "In Review" AND "Feature" is not EMPTY
+      jql: project="Lush Website" AND status = "In Review" AND "Feature" is not EMPTY
       service_params:
-        action_on_pass: "Passed BDD Tests"
         feature_field: customfield_11301
 
   formatter:
@@ -27,7 +26,7 @@ default:
     parameters:
       output_path:    null,qms_behat_report.html
 
-test:
+live:
   extensions:
     Behat\MinkExtension\Extension:
       base_url: http://qms.localhost
@@ -44,15 +43,13 @@ test:
       host: https://ikosltd.atlassian.net/
       user: glynn.reid
       password: delta221
-      jql: project="Quality Meat Scotland" AND status = "In Review" AND "Feature" is not EMPTY
-      status_on_pass: "In Review"
-      comment_on_pass: false
-      comment_on_fail: false
-      reopen_on_fail: false
-      feature_field: customfield_11301
-      cache_directory: cache
+      jql: project="Lush Website" AND status = "In Review" AND "Feature" is not EMPTY
+      service_params:
+        action_on_pass: "Passed BDD Tests"
+        feature_field: customfield_11301
 
   formatter:
     name:               pretty,html
     parameters:
       output_path:    null,qms_behat_report.html
+
